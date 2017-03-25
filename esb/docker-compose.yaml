@@ -1,0 +1,46 @@
+version: '2.0'
+services:
+  esb:
+    image: "openiamdocker/esb:${BUILD_ENVIRONMENT}"
+    mem_limit: 2048M
+    ports:
+    - "9080:9080"
+    links:
+    - mariadb:mariadb
+    - elasticsearch:elasticsearch
+    - rabbitmq:rabbitmq
+    depends_on:
+    - mariadb
+    - elasticsearch
+    - rabbitmq
+    - idm
+    volumes:
+    - ./jks/:/data/openiam/conf/jks
+  idm:
+    image: openiamdocker/idm:dev
+    links:
+    - mariadb:mariadb
+    - rabbitmq:rabbitmq
+    - elasticsearch:elasticsearch
+    mem_limit: 2048M
+    depends_on:
+    - mariadb
+    - elasticsearch
+    - rabbitmq
+  mariadb:
+    image: "openiamdocker/mariadb:${BUILD_ENVIRONMENT}"
+    environment:
+    - "MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}"
+    volumes:
+    - ./mysql/:/var/lib/mysql
+    - ./db/:/opt/openiam/webapps/db
+  elasticsearch:
+    image: "openiamdocker/elasticsearch:${BUILD_ENVIRONMENT}"
+    volumes:
+    - ./elasticsearch/data/:/usr/share/elasticsearch/data
+  rabbitmq:
+    ports:
+    - "5671:5671"
+    - "5672:5672"
+    image: "openiamdocker/rabbitmq:${BUILD_ENVIRONMENT}"
+
