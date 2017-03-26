@@ -2,10 +2,10 @@ version: '2.1'
 services:
   tomcat:
     environment:
-    - SPRING_REDIS_PASSWORD=passwd00
-    - OPENIAM_ESB_PORT=<THE PORT OF THE BOX WHERE YOUR ESB IS.  It will be 80 of using a LB, or 9080 if going directly to the esb container>
-    - OPENIAM_ESB_HOST=<THE HOSTNAME/IP ADDRESS WHERE YOUR ESB IS>
-    image: openiamdocker/ui:dev
+    - "SPRING_REDIS_PASSWORD=${REDIS_PASSWORD}"
+    - "OPENIAM_ESB_PORT=${ESB_PORT}"
+    - "OPENIAM_ESB_HOST=${ESB_HOST}"
+    image: "openiamdocker/ui:${BUILD_ENVIRONMENT}"
     ports:
       - "8080:8080"
     links:
@@ -14,6 +14,8 @@ services:
     - redis
     mem_limit: 4096M
   redis:
-    image: openiamdocker/redis:dev
+    environment:
+    - "REDIS_PASSWORD=${REDIS_PASSWORD}"
+    image: "openiamdocker/redis:${BUILD_ENVIRONMENT}"
     ports:
     - "6379:6379"
