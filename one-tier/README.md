@@ -1,6 +1,6 @@
-# UI
+# One-Tier
 
-This folder contains an example docker-compose file and instructions on bringing up the ESB via docker-compose.
+This folder contains an example docker-compose file and instructions on bringing up the entire OpenIAM suite via docker-compose.
 
 ## Setup
 
@@ -8,9 +8,8 @@ The following environment variables are required.
 
 ```
 $BUILD_ENVIRONMENT - this the OpenIAM environment which you are pulling.  Valid values are 'dev', 'qa', and 'prod'
-$REDIS_PASSWORD - this is the password that will be used to communicate with Redis.
-$ESB_PORT - the port that the ESB is running.  If  running thorugh a load balancer, this is likely '80'.  If hitting the ESB directly, this is likely 9080
-$ESB_HOST - the host where the ESB is running 
+$MYSQL_ROOT_PASSWORD - this is the root password that will be used to setup MySQL.  Don't worry, this stays internal to the MySQL docker container
+$REDIS_PASSWORD - this is the password that will be used to communicate with Redis. 
 ```
 
 ## Running docker-compose
