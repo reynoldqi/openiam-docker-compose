@@ -43,4 +43,5 @@ services:
     - "5671:5671"
     - "5672:5672"
     image: "openiamdocker/rabbitmq:${BUILD_ENVIRONMENT}"
-
+  groovy_manager:
+    image: "openiamdocker/groovy-manager:${BUILD_ENVIRONMENT}"
