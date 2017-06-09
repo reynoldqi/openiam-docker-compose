@@ -11,6 +11,11 @@ $BUILD_ENVIRONMENT - this the OpenIAM environment which you are pulling.  Valid 
 $MYSQL_ROOT_PASSWORD - this is the root password that will be used to setup MySQL.  Don't worry, this stays internal to the MySQL docker container
 ```
 
+If you are using  Oracle, the following environment variable is also required
+```
+OPENIAM_TIME_ZONE=<your_timezone>
+```
+
 ## Running docker-compose
 
 To bring up the ESB, run the following commands

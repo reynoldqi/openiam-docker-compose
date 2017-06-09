@@ -12,6 +12,11 @@ $MYSQL_ROOT_PASSWORD - this is the root password that will be used to setup MySQ
 $REDIS_PASSWORD - this is the password that will be used to communicate with Redis. 
 ```
 
+If you are using  Oracle, the following environment variable is also required
+```
+OPENIAM_TIME_ZONE=<your_timezone>
+```
+
 ## Running docker-compose
 
 To bring up the UI, run the following commands

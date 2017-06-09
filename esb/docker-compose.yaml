@@ -19,12 +19,10 @@ services:
   idm:
     image: "openiamdocker/idm:${BUILD_ENVIRONMENT}"
     links:
-    - mariadb:mariadb
     - rabbitmq:rabbitmq
     - elasticsearch:elasticsearch
     mem_limit: 1024M
     depends_on:
-    - mariadb
     - elasticsearch
     - rabbitmq
   mariadb:
@@ -46,9 +44,7 @@ services:
   groovy_manager:
     image: "openiamdocker/groovy-manager:${BUILD_ENVIRONMENT}"
     links:
-    - mariadb:mariadb
     - rabbitmq:rabbitmq
     mem_limit: 1024M
     depends_on:
-    - mariadb
     - rabbitmq
