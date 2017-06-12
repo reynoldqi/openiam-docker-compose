@@ -15,12 +15,22 @@ services:
     - redis
     - esb
     mem_limit: 4096M
+    healthcheck:
+      test: "(healthcheck.sh 120 && exit 0) || exit 1"
+      interval: 120s
+      timeout: 120s
+      retries: 2
   redis:
+    volumes:
+    - ./redis-data/:/data
     environment:
     - "REDIS_PASSWORD=${REDIS_PASSWORD}"
     image: "openiamdocker/redis:${BUILD_ENVIRONMENT}"
-    ports:
-    - "6379:6379"
+    healthcheck:
+      test: "(healthcheck.sh 120 && exit 0) || exit 1"
+      interval: 120s
+      timeout: 120s
+      retries: 2
   esb:
     image: "openiamdocker/esb:${BUILD_ENVIRONMENT}"
     mem_limit: 2048M
@@ -37,6 +47,11 @@ services:
     - idm
     volumes:
     - ./jks/:/data/openiam/conf/jks
+    healthcheck:
+      test: "(healthcheck.sh 120 && exit 0) || exit 1"
+      interval: 120s
+      timeout: 120s
+      retries: 2
   idm:
     image: "openiamdocker/idm:${BUILD_ENVIRONMENT}"
     links:
@@ -46,6 +61,11 @@ services:
     depends_on:
     - elasticsearch
     - rabbitmq
+    healthcheck:
+      test: "(healthcheck.sh 120 && exit 0) || exit 1"
+      interval: 120s
+      timeout: 120s
+      retries: 2
   mariadb:
     image: "openiamdocker/mariadb:${BUILD_ENVIRONMENT}"
     environment:
@@ -53,15 +73,27 @@ services:
     volumes:
     - ./mysql/:/var/lib/mysql
     - ./db/:/opt/openiam/webapps/db
+    healthcheck:
+      test: "(healthcheck.sh 120 && exit 0) || exit 1"
+      interval: 120s
+      timeout: 120s
+      retries: 2
   elasticsearch:
     image: "openiamdocker/elasticsearch:${BUILD_ENVIRONMENT}"
     volumes:
     - ./elasticsearch/data/:/usr/share/elasticsearch/data
+    healthcheck:
+      test: "(healthcheck.sh 120 && exit 0) || exit 1"
+      interval: 120s
+      timeout: 120s
+      retries: 2
   rabbitmq:
-    ports:
-    - "5671:5671"
-    - "5672:5672"
     image: "openiamdocker/rabbitmq:${BUILD_ENVIRONMENT}"
+    healthcheck:
+      test: "(healthcheck.sh 120 && exit 0) || exit 1"
+      interval: 120s
+      timeout: 120s
+      retries: 2
   groovy_manager:
     image: "openiamdocker/groovy-manager:${BUILD_ENVIRONMENT}"
     links:
@@ -69,3 +101,24 @@ services:
     mem_limit: 1024M
     depends_on:
     - rabbitmq
+    healthcheck:
+      test: "(healthcheck.sh 120 && exit 0) || exit 1"
+      interval: 120s
+      timeout: 120s
+      retries: 2
+  workflow:
+    image: openiamdocker/workflow:dev
+    links:
+    - mariadb:mariadb
+    - rabbitmq:rabbitmq
+    mem_limit: 1024M
+    depends_on:
+    - mariadb
+    - rabbitmq
+    volumes:
+    - ./activiti/:/data/openiam/conf/activiti
+    healthcheck:
+      test: "(healthcheck.sh 120 && exit 0) || exit 1"
+      interval: 120s
+      timeout: 120s
+      retries: 2
