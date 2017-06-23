@@ -2,6 +2,8 @@
 
 This folder contains an example docker-compose file and instructions on bringing up the ESB via docker-compose.
 
+The database used in this example is MySQL, which will be brough up in a separate docker container
+
 ## Setup
 
 The following environment variables are required.
@@ -9,11 +11,6 @@ The following environment variables are required.
 ```
 $BUILD_ENVIRONMENT - this the OpenIAM environment which you are pulling.  Valid values are 'dev', 'qa', and 'prod'
 $MYSQL_ROOT_PASSWORD - this is the root password that will be used to setup MySQL.  Don't worry, this stays internal to the MySQL docker container
-```
-
-If you are using  Oracle, the following environment variable is also required
-```
-OPENIAM_TIME_ZONE=<your_timezone>
 ```
 
 ## Running docker-compose

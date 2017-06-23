@@ -1,16 +1,23 @@
 version: '2.1'
 services:
   esb:
+    environment:
+    - OPENIAM_PROP_openiam_dbType=ORACLE_INSENSITIVE
+    - OPENIAM_PROP_openiam_hibernate_dialect=org.hibernate.dialect.Oracle10gDialect
+    - OPENIAM_PROP_jdbc_driverClassName=oracle.jdbc.OracleDriver
+    - "OPENIAM_PROP_user_timezone=${OPENIAM_ORACLE_TIMEZONE}"
+    - "OPENIAM_PROP_openiam_databaseSchema_name=${OPENIAM_ORACLE_JDBC_USERNAME}"
+    - "OPENIAM_PROP_jdbc_url=${OPENIAM_ORACLE_JDBC_URL}"
+    - "OPENIAM_PROP_jdbc_username=${OPENIAM_ORACLE_JDBC_USERNAME}"
+    - "OPENIAM_PROP_jdbc_password=${OPENIAM_ORACLE_JDBC_PASSWORD}"
+    - OPENIAM_JAVA_HEAP_SIZE=1024M
     image: "openiamdocker/esb:${BUILD_ENVIRONMENT}"
-    mem_limit: 2048M
     ports:
     - "9080:9080"
     links:
-    - mariadb:mariadb
     - elasticsearch:elasticsearch
     - rabbitmq:rabbitmq
     depends_on:
-    - mariadb
     - elasticsearch
     - rabbitmq
     - idm
@@ -26,22 +33,11 @@ services:
     links:
     - rabbitmq:rabbitmq
     - elasticsearch:elasticsearch
-    mem_limit: 1024M
+    environment:
+    - OPENIAM_JAVA_HEAP_SIZE=512M
     depends_on:
     - elasticsearch
     - rabbitmq
-    healthcheck:
-      test: "(healthcheck.sh 120 && exit 0) || exit 1"
-      interval: 120s
-      timeout: 120s
-      retries: 2
-  mariadb:
-    image: "openiamdocker/mariadb:${BUILD_ENVIRONMENT}"
-    environment:
-    - "MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}"
-    volumes:
-    - ./mysql/:/var/lib/mysql
-    - ./db/:/opt/openiam/webapps/db
     healthcheck:
       test: "(healthcheck.sh 120 && exit 0) || exit 1"
       interval: 120s
@@ -67,7 +63,8 @@ services:
     image: "openiamdocker/groovy-manager:${BUILD_ENVIRONMENT}"
     links:
     - rabbitmq:rabbitmq
-    mem_limit: 1024M
+    environment:
+    - OPENIAM_JAVA_HEAP_SIZE=512M
     depends_on:
     - rabbitmq
     healthcheck:
@@ -76,13 +73,18 @@ services:
       timeout: 120s
       retries: 2
   workflow:
-    image: openiamdocker/workflow:dev
+    environment:
+    - OPENIAM_PROP_openiam_hibernate_dialect=org.hibernate.dialect.Oracle10gDialect
+    - OPENIAM_PROP_jdbc_driverClassName=oracle.jdbc.OracleDriver
+    - "OPENIAM_PROP_user_timezone=${OPENIAM_ORACLE_TIMEZONE}"
+    - "OPENIAM_PROP_jdbc_activiti_url=${OPENIAM_ORACLE_ACTIVITI_JDBC_URL}"
+    - "OPENIAM_PROP_jdbc_activiti_username=${OPENIAM_ORACLE_ACTIVITI_JDBC_USERNAME}"
+    - "OPENIAM_PROP_jdbc_activiti_password=${OPENIAM_ORACLE_ACTIVITI_JDBC_PASSWORD}"
+    - OPENIAM_JAVA_HEAP_SIZE=1024M
+    image: "openiamdocker/workflow:${BUILD_ENVIRONMENT}"
     links:
-    - mariadb:mariadb
     - rabbitmq:rabbitmq
-    mem_limit: 1024M
     depends_on:
-    - mariadb
     - rabbitmq
     volumes:
     - ./activiti/:/data/openiam/conf/activiti

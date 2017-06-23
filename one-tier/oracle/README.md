@@ -12,10 +12,25 @@ $MYSQL_ROOT_PASSWORD - this is the root password that will be used to setup MySQ
 $REDIS_PASSWORD - this is the password that will be used to communicate with Redis. 
 ```
 
-If you are using  Oracle, the following environment variable is also required
+
+The following environemnt variables are required to run the ESB container
+
 ```
-OPENIAM_TIME_ZONE=<your_timezone>
+$OPENIAM_ORACLE_TIMEZONE - this is required.  Docker has no timezone by default, so you have to specify this for connection to Oracle to work
+$OPENIAM_ORACLE_JDBC_URL - the JDBC url to the OpenIAM database
+$OPENIAM_ORACLE_JDBC_USERNAME - username to the OpenIAM database
+$OPENIAM_ORACLE_JDBC_PASSWORD - password to the OpenIAM database
 ```
+
+The following environemnt variables are required to run within the Workflow container
+
+```
+$OPENIAM_ORACLE_TIMEZONE - this is required.  Docker has no timezone by default, so you have to specify this for connection to Oracle to work
+$OPENIAM_ORACLE_ACTIVITI_JDBC_URL= the JDBC url to the Activiti Database
+$OPENIAM_ORACLE_ACTIVITI_JDBC_USERNAME - the username to the Activiti Database
+$OPENIAM_ORACLE_ACTIVITI_JDBC_PASSWORD - the password to the Activiti Database
+```
+
 
 ## Running docker-compose
 

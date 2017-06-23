@@ -1,0 +1,126 @@
+version: '2.1'
+services:
+  tomcat:
+    environment:
+    - "SPRING_REDIS_PASSWORD=${REDIS_PASSWORD}"
+    - OPENIAM_ESB_HOST=esb
+    - OPENIAM_ESB_PORT=9080
+    image: "openiamdocker/ui:${BUILD_ENVIRONMENT}"
+    ports:
+      - "8080:8080"
+    links:
+    - redis:redis
+    - esb:esb
+    depends_on:
+    - redis
+    - esb
+    mem_limit: 4096M
+    healthcheck:
+      test: "(healthcheck.sh 120 && exit 0) || exit 1"
+      interval: 120s
+      timeout: 120s
+      retries: 2
+  redis:
+    volumes:
+    - ./redis-data/:/data
+    environment:
+    - "REDIS_PASSWORD=${REDIS_PASSWORD}"
+    image: "openiamdocker/redis:${BUILD_ENVIRONMENT}"
+    healthcheck:
+      test: "(healthcheck.sh 120 && exit 0) || exit 1"
+      interval: 120s
+      timeout: 120s
+      retries: 2
+  esb:
+    environment:
+    - OPENIAM_PROP_openiam_dbType=ORACLE_INSENSITIVE
+    - OPENIAM_PROP_openiam_hibernate_dialect=org.hibernate.dialect.Oracle10gDialect
+    - OPENIAM_PROP_jdbc_driverClassName=oracle.jdbc.OracleDriver
+    - "OPENIAM_PROP_user_timezone=${OPENIAM_ORACLE_TIMEZONE}"
+    - "OPENIAM_PROP_openiam_databaseSchema_name=${OPENIAM_ORACLE_JDBC_USERNAME}"
+    - "OPENIAM_PROP_jdbc_url=${OPENIAM_ORACLE_JDBC_URL}"
+    - "OPENIAM_PROP_jdbc_username=${OPENIAM_ORACLE_JDBC_USERNAME}"
+    - "OPENIAM_PROP_jdbc_password=${OPENIAM_ORACLE_JDBC_PASSWORD}"
+    - OPENIAM_JAVA_HEAP_SIZE=1024M
+    image: "openiamdocker/esb:${BUILD_ENVIRONMENT}"
+    ports:
+    - "9080:9080"
+    links:
+    - elasticsearch:elasticsearch
+    - rabbitmq:rabbitmq
+    depends_on:
+    - elasticsearch
+    - rabbitmq
+    - idm
+    volumes:
+    - ./jks/:/data/openiam/conf/jks
+    healthcheck:
+      test: "(healthcheck.sh 120 && exit 0) || exit 1"
+      interval: 120s
+      timeout: 120s
+      retries: 2
+  idm:
+    image: "openiamdocker/idm:${BUILD_ENVIRONMENT}"
+    links:
+    - rabbitmq:rabbitmq
+    - elasticsearch:elasticsearch
+    environment:
+    - OPENIAM_JAVA_HEAP_SIZE=512M
+    depends_on:
+    - elasticsearch
+    - rabbitmq
+    healthcheck:
+      test: "(healthcheck.sh 120 && exit 0) || exit 1"
+      interval: 120s
+      timeout: 120s
+      retries: 2
+  elasticsearch:
+    image: "openiamdocker/elasticsearch:${BUILD_ENVIRONMENT}"
+    volumes:
+    - ./elasticsearch/data/:/usr/share/elasticsearch/data
+    healthcheck:
+      test: "(healthcheck.sh 120 && exit 0) || exit 1"
+      interval: 120s
+      timeout: 120s
+      retries: 2
+  rabbitmq:
+    image: "openiamdocker/rabbitmq:${BUILD_ENVIRONMENT}"
+    healthcheck:
+      test: "(healthcheck.sh 120 && exit 0) || exit 1"
+      interval: 120s
+      timeout: 120s
+      retries: 2
+  groovy_manager:
+    image: "openiamdocker/groovy-manager:${BUILD_ENVIRONMENT}"
+    links:
+    - rabbitmq:rabbitmq
+    environment:
+    - OPENIAM_JAVA_HEAP_SIZE=512M
+    depends_on:
+    - rabbitmq
+    healthcheck:
+      test: "(healthcheck.sh 120 && exit 0) || exit 1"
+      interval: 120s
+      timeout: 120s
+      retries: 2
+  workflow:
+    image: "openiamdocker/workflow:${BUILD_ENVIRONMENT}"
+    links:
+    - rabbitmq:rabbitmq
+    environment:
+    - OPENIAM_PROP_openiam_hibernate_dialect=org.hibernate.dialect.Oracle10gDialect
+    - OPENIAM_PROP_jdbc_driverClassName=oracle.jdbc.OracleDriver
+    - "OPENIAM_PROP_user_timezone=${OPENIAM_ORACLE_TIMEZONE}"
+    - "OPENIAM_PROP_jdbc_activiti_url=${OPENIAM_ORACLE_ACTIVITI_JDBC_URL}"
+    - "OPENIAM_PROP_jdbc_activiti_username=${OPENIAM_ORACLE_ACTIVITI_JDBC_USERNAME}"
+    - "OPENIAM_PROP_jdbc_activiti_password=${OPENIAM_ORACLE_ACTIVITI_JDBC_PASSWORD}"
+    - OPENIAM_JAVA_HEAP_SIZE=1024M
+    depends_on:
+    - rabbitmq
+    volumes:
+    - ./activiti/:/data/openiam/conf/activiti
+    healthcheck:
+      test: "(healthcheck.sh 120 && exit 0) || exit 1"
+      interval: 120s
+      timeout: 120s
+      retries: 2
