@@ -4,6 +4,13 @@ This folder contains an example docker-compose file and instructions on bringing
 
 ## Setup
 
+The following environment variables are required.
+
+```
+$BUILD_ENVIRONMENT - this the OpenIAM environment which you are pulling.  Valid values are 'dev', 'qa', and 'prod'
+$REDIS_PASSWORD - this is the password that will be used to communicate with Redis. 
+```
+
 The following environemnt variables are required to run the ESB container
 
 ```
