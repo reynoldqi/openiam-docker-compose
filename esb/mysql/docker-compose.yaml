@@ -4,19 +4,32 @@ services:
     image: "openiamdocker/esb:${BUILD_ENVIRONMENT}"
     environment:
     - OPENIAM_JAVA_HEAP_SIZE=1024M
+    - "REDIS_PASSWORD=${REDIS_PASSWORD}"
     ports:
     - "9080:9080"
     links:
     - mariadb:mariadb
     - elasticsearch:elasticsearch
     - rabbitmq:rabbitmq
+    - redis:redis
     depends_on:
     - mariadb
     - elasticsearch
     - rabbitmq
-    - idm
+    - redis
     volumes:
     - ./jks/:/data/openiam/conf/jks
+    healthcheck:
+      test: "(healthcheck.sh 120 && exit 0) || exit 1"
+      interval: 120s
+      timeout: 120s
+      retries: 2
+  redis:
+    volumes:
+    - ./redis-data/:/data
+    environment:
+    - "REDIS_PASSWORD=${REDIS_PASSWORD}"
+    image: "openiamdocker/redis:${BUILD_ENVIRONMENT}"
     healthcheck:
       test: "(healthcheck.sh 120 && exit 0) || exit 1"
       interval: 120s
@@ -26,11 +39,9 @@ services:
     image: "openiamdocker/idm:${BUILD_ENVIRONMENT}"
     links:
     - rabbitmq:rabbitmq
-    - elasticsearch:elasticsearch
     environment:
     - OPENIAM_JAVA_HEAP_SIZE=512M
     depends_on:
-    - elasticsearch
     - rabbitmq
     healthcheck:
       test: "(healthcheck.sh 120 && exit 0) || exit 1"

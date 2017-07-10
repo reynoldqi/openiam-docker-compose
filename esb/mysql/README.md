@@ -11,6 +11,7 @@ The following environment variables are required.
 ```
 $BUILD_ENVIRONMENT - this the OpenIAM environment which you are pulling.  Valid values are 'dev', 'qa', and 'prod'
 $MYSQL_ROOT_PASSWORD - this is the root password that will be used to setup MySQL.  Don't worry, this stays internal to the MySQL docker container
+$REDIS_PASSWORD - this is the password that will be used to communicate with Redis.
 ```
 
 ## Running docker-compose

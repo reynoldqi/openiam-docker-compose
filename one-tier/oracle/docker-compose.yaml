@@ -2,7 +2,7 @@ version: '2.1'
 services:
   tomcat:
     environment:
-    - "SPRING_REDIS_PASSWORD=${REDIS_PASSWORD}"
+    - "REDIS_PASSWORD=${REDIS_PASSWORD}"
     - OPENIAM_ESB_HOST=esb
     - OPENIAM_ESB_PORT=9080
     image: "openiamdocker/ui:${BUILD_ENVIRONMENT}"
@@ -41,6 +41,7 @@ services:
     - "OPENIAM_PROP_jdbc_url=${OPENIAM_ORACLE_JDBC_URL}"
     - "OPENIAM_PROP_jdbc_username=${OPENIAM_ORACLE_JDBC_USERNAME}"
     - "OPENIAM_PROP_jdbc_password=${OPENIAM_ORACLE_JDBC_PASSWORD}"
+    - "REDIS_PASSWORD=${REDIS_PASSWORD}"
     - OPENIAM_JAVA_HEAP_SIZE=1024M
     image: "openiamdocker/esb:${BUILD_ENVIRONMENT}"
     ports:
@@ -48,10 +49,11 @@ services:
     links:
     - elasticsearch:elasticsearch
     - rabbitmq:rabbitmq
+    - redis:redis
     depends_on:
     - elasticsearch
     - rabbitmq
-    - idm
+    - redis
     volumes:
     - ./jks/:/data/openiam/conf/jks
     healthcheck:
@@ -63,11 +65,9 @@ services:
     image: "openiamdocker/idm:${BUILD_ENVIRONMENT}"
     links:
     - rabbitmq:rabbitmq
-    - elasticsearch:elasticsearch
     environment:
     - OPENIAM_JAVA_HEAP_SIZE=512M
     depends_on:
-    - elasticsearch
     - rabbitmq
     healthcheck:
       test: "(healthcheck.sh 120 && exit 0) || exit 1"
