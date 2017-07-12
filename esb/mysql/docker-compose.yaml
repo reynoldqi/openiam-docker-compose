@@ -84,8 +84,6 @@ services:
     - OPENIAM_JAVA_HEAP_SIZE=512M
     depends_on:
     - rabbitmq
-    volumes:
-    - ./iamscripts/:/data/openiam/conf/iamscripts
     healthcheck:
       test: "(healthcheck.sh 120 && exit 0) || exit 1"
       interval: 120s
