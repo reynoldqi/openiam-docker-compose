@@ -2,6 +2,8 @@
 
 set -e
 
+docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
+
 cd ~/project/back-end/2.1/mysql
 docker-compose pull
 
