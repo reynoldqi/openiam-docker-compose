@@ -8,7 +8,6 @@ jobs:
     enviornment:
       TZ: "/usr/share/zoneinfo/Etc/UTC"
       OPENIAM_VERSION_NUMBER: "4.0.0"
-      DOCKER_COMPOSE_VERSION: "1.14.0"
       DEBIAN_FRONTEND: "noninteractive"
       OPENIAM_HOME: /opt/openiam/webapps
       OPENIAM_CONF_PATH: /data/openiam
@@ -21,7 +20,7 @@ jobs:
           name: Install Curl, Bash and Git
           command: |
             apk --update add curl bash git wget curl py-pip=9.0.0-r1
-            pip install docker-compose==$DOCKER_COMPOSE_VERSION
+            pip install docker-compose=="1.14.0"
             rm -f /var/cache/apk/*
       - checkout
       - setup_remote_docker
