@@ -7,9 +7,12 @@ The database used in this example is MySQL, which will be brought up in a separa
 ## Pre-requisite
 Create an account at docker hub and share that account with the OpenIAM Team.
 Install the docker client for your OS:
-https://www.docker.com/docker-centos-distribution
+
+```
+https://www.docker.com/docker-centos-distribution 
 https://www.docker.com/docker-red-hat-enterprise-linux-rhel
 https://www.docker.com/docker-mac 
+```
 
 ## Setup
 
