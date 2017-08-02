@@ -21,7 +21,7 @@ jobs:
           name: Install Curl, Bash and Git
           command: |
             apk --update add curl bash git wget curl py-pip=9.0.0-r1
-            pip install docker-compose==${DOCKER_COMPOSE_VERSION}
+            pip install docker-compose==$DOCKER_COMPOSE_VERSION
             rm -f /var/cache/apk/*
       - checkout
       - setup_remote_docker
