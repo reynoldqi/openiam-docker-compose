@@ -2,15 +2,14 @@ version: '2.1'
 services:
   esb:
     environment:
-    - OPENIAM_PROP_openiam_dbType=ORACLE_INSENSITIVE
-    - OPENIAM_PROP_openiam_hibernate_dialect=org.hibernate.dialect.Oracle10gDialect
-    - OPENIAM_PROP_jdbc_driverClassName=oracle.jdbc.OracleDriver
+    - "JDBC_HOST=${OPENIAM_JDBC_HOST}"
+    - "JDBC_PORT=${OPENIAM_JDBC_PORT}"
+    - "JDBC_SCHEMA_NAME=${OPENIAM_JDBC_SCHEMA_NAME}"
+    - "JDBC_USERNAME=${OPENIAM_JDBC_USERNAME}"
+    - "JDBC_PASSWORD=${OPENIAM_JDBC_PASSWORD}"
+    - "JDBC_ACTIVITI_USERNAME=${OPENIAM_ACTIVITI_JDBC_USERNAME}"
+    - "JDBC_ACTIVITI_PASSWORD=${OPENIAM_ACTIVITI_JDBC_PASSWORD}"
     - "OPENIAM_PROP_user_timezone=${OPENIAM_ORACLE_TIMEZONE}"
-    - "OPENIAM_PROP_openiam_databaseSchema_name=${OPENIAM_ORACLE_JDBC_USERNAME}"
-    - "OPENIAM_PROP_jdbc_url=${OPENIAM_ORACLE_JDBC_URL}"
-    - "OPENIAM_PROP_jdbc_username=${OPENIAM_ORACLE_JDBC_USERNAME}"
-    - "OPENIAM_PROP_jdbc_password=${OPENIAM_ORACLE_JDBC_PASSWORD}"
-    - "REDIS_PASSWORD=${REDIS_PASSWORD}"
     - OPENIAM_JAVA_HEAP_SIZE=1024M
     image: "openiamdocker/esb:${BUILD_ENVIRONMENT}"
     ports:
@@ -85,12 +84,14 @@ services:
       retries: 2
   workflow:
     environment:
-    - OPENIAM_PROP_openiam_hibernate_dialect=org.hibernate.dialect.Oracle10gDialect
-    - OPENIAM_PROP_jdbc_driverClassName=oracle.jdbc.OracleDriver
+    - "JDBC_HOST=${OPENIAM_JDBC_HOST}"
+    - "JDBC_PORT=${OPENIAM_JDBC_PORT}"
+    - "JDBC_SCHEMA_NAME=${OPENIAM_JDBC_SCHEMA_NAME}"
+    - "JDBC_USERNAME=${OPENIAM_JDBC_USERNAME}"
+    - "JDBC_PASSWORD=${OPENIAM_JDBC_PASSWORD}"
+    - "JDBC_ACTIVITI_USERNAME=${OPENIAM_ACTIVITI_JDBC_USERNAME}"
+    - "JDBC_ACTIVITI_PASSWORD=${OPENIAM_ACTIVITI_JDBC_PASSWORD}"
     - "OPENIAM_PROP_user_timezone=${OPENIAM_ORACLE_TIMEZONE}"
-    - "OPENIAM_PROP_jdbc_activiti_url=${OPENIAM_ORACLE_ACTIVITI_JDBC_URL}"
-    - "OPENIAM_PROP_jdbc_activiti_username=${OPENIAM_ORACLE_ACTIVITI_JDBC_USERNAME}"
-    - "OPENIAM_PROP_jdbc_activiti_password=${OPENIAM_ORACLE_ACTIVITI_JDBC_PASSWORD}"
     - OPENIAM_JAVA_HEAP_SIZE=1024M
     image: "openiamdocker/workflow:${BUILD_ENVIRONMENT}"
     links:

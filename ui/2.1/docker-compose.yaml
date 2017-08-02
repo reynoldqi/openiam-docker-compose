@@ -3,22 +3,20 @@ services:
   tomcat:
     environment:
     - "REDIS_PASSWORD=${REDIS_PASSWORD}"
-    - "OPENIAM_ESB_PORT=${ESB_PORT}"
-    - "OPENIAM_ESB_HOST=${ESB_HOST}"
-    image: "openiamdocker/ui:${BUILD_ENVIRONMENT}"
+    image: "openiamdocker/ui:${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
     ports:
       - "8080:8080"
     links:
     - redis:redis
     depends_on:
     - redis
-    mem_limit: 4096M
+    mem_limit: 2048M
   redis:
     volumes:
     - ./redis-data/:/data
     environment:
     - "REDIS_PASSWORD=${REDIS_PASSWORD}"
-    image: "openiamdocker/redis:${BUILD_ENVIRONMENT}"
+    image: "openiamdocker/redis:${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
     healthcheck:
       test: "(healthcheck.sh 120 && exit 0) || exit 1"
       interval: 120s

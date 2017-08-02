@@ -6,8 +6,8 @@ You must have access to our dockerhub repositories in order to execute the docke
 ### Subfolder Overview
 
 
-###### ESB
-The ESB folder contains the docker-compose file and instructions on running *only* the ESB.
+###### back-end
+The back-end folder contains the docker-compose file and instructions on running *only* the back-end.
 
 ###### UI
 
@@ -16,7 +16,7 @@ The UI folder contains the docker-compose file and instructions for running *onl
 
 ###### One-tier
 
-The one-tier folder contains the docker-compose file and instructions for running the UI and ESB in one environment (i.e. on one VM or virtual host)
+The one-tier folder contains the docker-compose file and instructions for running the UI and Back-end in one environment (i.e. on one VM or virtual host)
 
 
 

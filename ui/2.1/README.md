@@ -7,10 +7,9 @@ This folder contains an example docker-compose file and instructions on bringing
 The following environment variables are required.
 
 ```
-$BUILD_ENVIRONMENT - this the OpenIAM environment which you are pulling.  Valid values are 'dev', 'qa', and 'prod'
+$OPENIAM_VERSION_NUMBER - this is the Version of OpenIAM that you are interested in running.  For Version 4, please use "4.0.0"
+$BUILD_ENVIRONMENT - this the OpenIAM environment which you are pulling.  Valid values are 'latest', dev', 'qa', and 'prod'
 $REDIS_PASSWORD - this is the password that will be used to communicate with Redis.
-$ESB_PORT - the port that the ESB is running.  If  running thorugh a load balancer, this is likely '80'.  If hitting the ESB directly, this is likely 9080
-$ESB_HOST - the host where the ESB is running 
 ```
 
 ## Running docker-compose

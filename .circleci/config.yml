@@ -1,0 +1,195 @@
+---
+version: 2
+
+jobs:
+  build:
+    machine: true
+    resource_class: large
+    enviornment:
+      TZ: "/usr/share/zoneinfo/Etc/UTC"
+      OPENIAM_VERSION_NUMBER: "4.0.0"
+      DEBIAN_FRONTEND: "noninteractive"
+      OPENIAM_HOME: /opt/openiam/webapps
+      OPENIAM_CONF_PATH: /data/openiam
+      OPENIAM_MASTER_BRANCH: development
+      TERM: dumb
+    steps:
+      - checkout
+      - run:
+          name: Build And package application
+          command: |
+             /bin/sh conf/setup.sh
+             /bin/sh conf/package.sh
+      - run:
+          name: Build and Deploy Locally with docker-compose
+          command: |
+             . docker/ci/setup.sh
+             . docker/ci/deploy.sh
+      - run:
+          name: Run Test Suite
+          no_output_timeout: 30m
+          command: |
+             /bin/sh conf/setup.tests.sh
+             mvn test -DskipTests=false -DargLine="-Xmx2048m" -s conf/settings.xml
+      - run:
+          name: Collect Tests
+          command: |
+             sudo mkdir -p /junit/
+             sudo find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} /junit/ \;
+          when: always
+      - store_test_results:
+          path: /junit
+      - store_artifacts:
+          path: /junit             
+      - run:
+          name: Deploy to libs-releases
+          command: |
+             if [ "${CIRCLE_BRANCH}" == "development" ]; then
+                . conf/deploy.sh
+                /bin/sh /usr/local/bin/docker.push.sh esb openiam-esb
+                /bin/sh /usr/local/bin/docker.push.sh workflow workflow
+                /bin/sh /usr/local/bin/docker.push.sh idm idm
+                /bin/sh /usr/local/bin/docker.push.sh groovy-manager groovy-manager
+             fi
+             
+             
+  deploy_to_dev:
+    docker:
+    - image: docker:17.05.0-ce-git
+    environment:
+      TZ: "/usr/share/zoneinfo/Etc/UTC"
+      OPENIAM_VERSION_NUMBER: "4.0.0"
+      DOCKER_VERSION: "17.05.0-ce"
+      DOCKER_COMPOSE_VERSION: "1.14.0"
+      DEBIAN_FRONTEND: "noninteractive"
+      TERM: dumb
+    steps:
+      - run:
+          name: Install Curl, Bash and Git
+          command: |
+            apk --update add curl bash git wget curl
+            rm -f /var/cache/apk/*
+      - checkout
+      - setup_remote_docker
+      - run:
+          name:  Bootstrap Environment
+          command: |
+             /bin/sh conf/bootstrap.promotion.sh
+      - run:
+          name: Promote to DEV
+          command: |
+            docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
+            /bin/sh /usr/local/bin/promote_artifact.sh openiam-esb libs-releases dev
+            /bin/sh /usr/local/bin/promote_artifact.sh workflow libs-releases dev
+            /bin/sh /usr/local/bin/promote_artifact.sh idm libs-releases dev
+            /bin/sh /usr/local/bin/promote_artifact.sh groovy-manager libs-releases dev
+            /bin/sh /usr/local/bin/promote_docker_image.sh esb openiam-esb libs-releases dev
+            /bin/sh /usr/local/bin/promote_docker_image.sh workflow workflow libs-releases dev
+            /bin/sh /usr/local/bin/promote_docker_image.sh idm idm libs-releases dev
+            /bin/sh /usr/local/bin/promote_docker_image.sh groovy-manager groovy-manager libs-releases dev
+            
+            
+  deploy_to_qa:
+    docker:
+    - image: docker:17.05.0-ce-git
+    environment:
+      TZ: "/usr/share/zoneinfo/Etc/UTC"
+      OPENIAM_VERSION_NUMBER: "4.0.0"
+      DOCKER_VERSION: "17.05.0-ce"
+      DOCKER_COMPOSE_VERSION: "1.14.0"
+      DEBIAN_FRONTEND: "noninteractive"
+      TERM: dumb
+    steps:
+      - run:
+          name: Install Curl, Bash and Git
+          command: |
+            apk --update add curl bash git wget curl py-pip=9.0.0-r1
+            pip install docker-compose==${DOCKER_COMPOSE_VERSION}
+            rm -f /var/cache/apk/*
+      - checkout
+      - setup_remote_docker
+      - run:
+          name:  Bootstrap Environment
+          command: |
+             /bin/sh conf/bootstrap.promotion.sh
+      - run:
+          name: Promote to QA
+          command: |
+            docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
+            /bin/sh /usr/local/bin/promote_artifact.sh openiam-esb dev qa
+            /bin/sh /usr/local/bin/promote_artifact.sh workflow dev qa
+            /bin/sh /usr/local/bin/promote_artifact.sh idm dev qa
+            /bin/sh /usr/local/bin/promote_artifact.sh groovy-manager dev qa
+            /bin/sh /usr/local/bin/promote_docker_image.sh esb openiam-esb dev qa
+            /bin/sh /usr/local/bin/promote_docker_image.sh workflow workflow dev qa
+            /bin/sh /usr/local/bin/promote_docker_image.sh idm idm dev qa
+            /bin/sh /usr/local/bin/promote_docker_image.sh groovy-manager groovy-manager dev qa
+            
+            
+  deploy_to_prod:
+    docker:
+    - image: docker:17.05.0-ce-git
+    environment:
+      TZ: "/usr/share/zoneinfo/Etc/UTC"
+      OPENIAM_VERSION_NUMBER: "4.0.0"
+      DOCKER_VERSION: "17.05.0-ce"
+      DOCKER_COMPOSE_VERSION: "1.14.0"
+      DEBIAN_FRONTEND: "noninteractive"
+      TERM: dumb
+    steps:
+      - run:
+          name: Install Curl, Bash and Git
+          command: |
+            apk --update add curl bash git wget curl py-pip=9.0.0-r1
+            pip install docker-compose==${DOCKER_COMPOSE_VERSION}
+            rm -f /var/cache/apk/*
+      - checkout
+      - setup_remote_docker
+      - run:
+          name:  Bootstrap Environment
+          command: |
+             /bin/sh conf/bootstrap.promotion.sh
+      - run:
+          name: Promote to PROD
+          command: |
+            docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
+            /bin/sh /usr/local/bin/promote_artifact.sh openiam-esb qa prod
+            /bin/sh /usr/local/bin/promote_artifact.sh workflow qa prod
+            /bin/sh /usr/local/bin/promote_artifact.sh idm qa prod
+            /bin/sh /usr/local/bin/promote_artifact.sh groovy-manager qa prod
+            /bin/sh /usr/local/bin/promote_docker_image.sh esb openiam-esb qa prod
+            /bin/sh /usr/local/bin/promote_docker_image.sh workflow workflow qa prod
+            /bin/sh /usr/local/bin/promote_docker_image.sh idm idm qa prod
+            /bin/sh /usr/local/bin/promote_docker_image.sh groovy-manager groovy-manager qa prod
+  
+
+workflows:
+  version: 2
+  build_local:
+    jobs:
+      - build
+      - approve_dev:
+         type: approval
+         requires:
+            - build
+         filters:
+            branches:
+               only: development
+      - deploy_to_dev:
+         requires:
+            - approve_dev
+      - approve_qa:
+         type: approval
+         requires:
+            - deploy_to_dev
+      - deploy_to_qa:
+         requires:
+            - approve_qa
+      - approve_prod:
+         type: approval
+         requires:
+            - deploy_to_qa
+      - deploy_to_prod:
+         type: approval
+         requires:
+            - approve_prod
