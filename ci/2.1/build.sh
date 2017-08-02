@@ -11,4 +11,7 @@ sudo cp -r /tmp/webapps/scripts/*.sh /usr/local/bin/
 cd $1
 sudo -E docker-compose pull
 sudo -E docker-compose up -d
-sudo /bin/bash /usr/local/bin/check_health.sh $2 15
+
+if [ -z "$2" ]; then
+    sudo /bin/bash /usr/local/bin/check_health.sh $2 15
+fi
