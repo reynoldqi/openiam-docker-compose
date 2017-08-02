@@ -21,11 +21,50 @@ jobs:
       - checkout
       - setup_remote_docker
       - run:
-          name: Build Images
+          name: Build 2.1 images
           command: |
-             /bin/sh conf/setup.sh
-             /bin/sh conf/package.sh
+             /bin/sh back-end/2.1/mysql/ci/build.sh
+  build_one_tier:
+    docker:
+    - image: docker:17.05.0-ce-git
+    enviornment:
+      TZ: "/usr/share/zoneinfo/Etc/UTC"
+      DEBIAN_FRONTEND: "noninteractive"
+      OPENIAM_HOME: /opt/openiam/webapps
+      OPENIAM_CONF_PATH: /data/openiam
+      TERM: dumb
+    steps:
       - run:
-          name: Run back-end
+          name: Install Curl, Bash and Git
           command: |
-             /bin/sh conf/run.sh back-end
+            apk --update add curl bash git wget curl py-pip=9.0.0-r1
+            pip install docker-compose=="1.14.0"
+            rm -f /var/cache/apk/*
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build 2.1 images
+          command: |
+             /bin/sh one-tier/2.1/mysql/ci/build.sh
+  build_ui:
+    docker:
+    - image: docker:17.05.0-ce-git
+    enviornment:
+      TZ: "/usr/share/zoneinfo/Etc/UTC"
+      DEBIAN_FRONTEND: "noninteractive"
+      OPENIAM_HOME: /opt/openiam/webapps
+      OPENIAM_CONF_PATH: /data/openiam
+      TERM: dumb
+    steps:
+      - run:
+          name: Install Curl, Bash and Git
+          command: |
+            apk --update add curl bash git wget curl py-pip=9.0.0-r1
+            pip install docker-compose=="1.14.0"
+            rm -f /var/cache/apk/*
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build 2.1 images
+          command: |
+             /bin/sh ui/2.1/ci/build.sh
