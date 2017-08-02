@@ -3,7 +3,8 @@ version: 2
 
 jobs:
   build:
-    machine: true
+    docker:
+    - image: docker:17.05.0-ce-git
     enviornment:
       TZ: "/usr/share/zoneinfo/Etc/UTC"
       OPENIAM_VERSION_NUMBER: "4.0.0"
@@ -14,8 +15,16 @@ jobs:
       MYSQL_ROOT_PASSWORD: mysqlrootpwd
       REDIS_PASSWORD: redispasswd
       TERM: dumb
+      DOCKER_COMPOSE_VERSION: "1.14.0"
     steps:
+      - run:
+          name: Install Curl, Bash and Git
+          command: |
+            apk --update add curl bash git wget curl py-pip=9.0.0-r1
+            pip install docker-compose==${DOCKER_COMPOSE_VERSION}
+            rm -f /var/cache/apk/*
       - checkout
+      - setup_remote_docker
       - run:
           name: Build Images
           command: |
