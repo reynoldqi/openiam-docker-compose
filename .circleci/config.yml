@@ -7,13 +7,9 @@ jobs:
     - image: docker:17.05.0-ce-git
     enviornment:
       TZ: "/usr/share/zoneinfo/Etc/UTC"
-      OPENIAM_VERSION_NUMBER: "4.0.0"
       DEBIAN_FRONTEND: "noninteractive"
       OPENIAM_HOME: /opt/openiam/webapps
       OPENIAM_CONF_PATH: /data/openiam
-      BUILD_ENVIRONMENT: dev
-      MYSQL_ROOT_PASSWORD: mysqlrootpwd
-      REDIS_PASSWORD: redispasswd
       TERM: dumb
     steps:
       - run:
