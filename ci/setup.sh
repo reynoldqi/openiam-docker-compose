@@ -40,4 +40,3 @@ sudo apt-get install docker-ce
 # sudo chmod a+x /usr/local/bin/docker-compose
 sudo apt-get install python-pip
 sudo pip install docker-compose
-am
