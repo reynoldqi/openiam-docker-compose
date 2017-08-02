@@ -15,7 +15,7 @@ jobs:
           command: |
              /bin/sh ci/setup.sh
              /bin/sh back-end/2.1/mysql/ci/build.sh
-  build_one_tier:
+  build_one_tier_v2_1:
     machine: true
     enviornment:
       TZ: "/usr/share/zoneinfo/Etc/UTC"
@@ -28,7 +28,7 @@ jobs:
           command: |
              /bin/sh ci/setup.sh
              /bin/sh one-tier/2.1/mysql/ci/build.sh
-  build_ui:
+  build_ui_v2_1:
     machine: true
     enviornment:
       TZ: "/usr/share/zoneinfo/Etc/UTC"
@@ -41,3 +41,12 @@ jobs:
           command: |
              /bin/sh ci/setup.sh
              /bin/sh ui/2.1/ci/build.sh
+             
+             
+workflows:
+  version: 2
+  build_local:
+    jobs:
+      - build
+      - build_one_tier_v2_1
+      - build_ui_v2_1
