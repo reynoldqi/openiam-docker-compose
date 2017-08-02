@@ -1,7 +1,6 @@
 #!/bin/bash
 
 set -e
-set -x
 
 cd ~/project/back-end/2.1/mysql
 sudo docker-compose pull

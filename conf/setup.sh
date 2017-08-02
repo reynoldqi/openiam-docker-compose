@@ -1,7 +1,6 @@
 #!/bin/bash
 
 set -e
-set -x
 
 export DOCKER_COMPOSE_VERSION="1.14.0"
 
