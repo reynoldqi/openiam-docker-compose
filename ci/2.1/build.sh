@@ -9,6 +9,6 @@ sudo docker cp $(docker ps -a -q -n 1):/opt/openiam/webapps/ /tmp/
 sudo cp -r /tmp/webapps/scripts/*.sh /usr/local/bin/
 
 cd $1
-sudo docker-compose pull
-sudo docker-compose up -d
+docker-compose pull
+docker-compose up -d
 sudo /bin/bash /usr/local/bin/check_health.sh $2 15
