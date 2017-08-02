@@ -10,5 +10,5 @@ cp -r /tmp/webapps/scripts/*.sh /usr/local/bin/
 
 cd $1
 docker-compose pull
-docker-compose build -d
+docker-compose up -d
 /bin/bash /usr/local/bin/check_health.sh $2 15
