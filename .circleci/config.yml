@@ -65,6 +65,6 @@ workflows:
   build_local:
     jobs:
       - build
-      - build_one_tier_v2_1
-      - build_ui_v2_1
+      - build_one_tier_v2_1_dev
+      - build_ui_v2_1_dev
       - build_backend_qa
