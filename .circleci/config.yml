@@ -8,39 +8,56 @@ jobs:
       TZ: "/usr/share/zoneinfo/Etc/UTC"
       DEBIAN_FRONTEND: "noninteractive"
       TERM: dumb
+      BUILD_ENVIRONMENT: dev
     steps:
       - checkout
       - run:
           name: Build 2.1 images
           command: |
              /bin/sh ci/setup.sh
-             /bin/sh back-end/2.1/mysql/ci/build.sh
-  build_one_tier_v2_1:
+             . back-end/2.1/mysql/ci/build.sh
+  build_one_tier_v2_1_dev:
     machine: true
     enviornment:
       TZ: "/usr/share/zoneinfo/Etc/UTC"
       DEBIAN_FRONTEND: "noninteractive"
       TERM: dumb
+      BUILD_ENVIRONMENT: dev
     steps:
       - checkout
       - run:
           name: Build 2.1 images
           command: |
              /bin/sh ci/setup.sh
-             /bin/sh one-tier/2.1/mysql/ci/build.sh
-  build_ui_v2_1:
+             . one-tier/2.1/mysql/ci/build.sh
+  build_ui_v2_1_dev:
     machine: true
     enviornment:
       TZ: "/usr/share/zoneinfo/Etc/UTC"
       DEBIAN_FRONTEND: "noninteractive"
       TERM: dumb
+      BUILD_ENVIRONMENT: dev
     steps:
       - checkout
       - run:
           name: Build 2.1 images
           command: |
              /bin/sh ci/setup.sh
-             /bin/sh ui/2.1/ci/build.sh
+             . ui/2.1/ci/build.sh
+  build_backend_qa:
+    machine: true
+    enviornment:
+      TZ: "/usr/share/zoneinfo/Etc/UTC"
+      DEBIAN_FRONTEND: "noninteractive"
+      TERM: dumb
+      BUILD_ENVIRONMENT: qa
+    steps:
+      - checkout
+      - run:
+          name: Build 2.1 images
+          command: |
+             /bin/sh ci/setup.sh
+             . back-end/2.1/mysql/ci/build.sh
              
              
 workflows:
@@ -50,3 +67,4 @@ workflows:
       - build
       - build_one_tier_v2_1
       - build_ui_v2_1
+      - build_backend_qa
