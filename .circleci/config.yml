@@ -15,7 +15,7 @@ jobs:
           name: Build 2.1 images
           command: |
              /bin/sh ci/setup.sh
-             export BUILD_ENVIRONMENT=dev; /bin/sh back-end/2.1/mysql/ci/build.sh
+             export BUILD_ENVIRONMENT=dev; /bin/sh back-end/2.1/mysql/ci/build.sh esb
   build_one_tier_v2_1_dev:
     machine: true
     enviornment:
@@ -29,7 +29,7 @@ jobs:
           name: Build 2.1 images
           command: |
              /bin/sh ci/setup.sh
-             export BUILD_ENVIRONMENT=dev; /bin/sh one-tier/2.1/mysql/ci/build.sh
+             export BUILD_ENVIRONMENT=dev; /bin/sh one-tier/2.1/mysql/ci/build.sh esb
   build_ui_v2_1_dev:
     machine: true
     enviornment:
@@ -43,7 +43,7 @@ jobs:
           name: Build 2.1 images
           command: |
              /bin/sh ci/setup.sh
-             export BUILD_ENVIRONMENT=dev; /bin/sh ui/2.1/ci/build.sh
+             export BUILD_ENVIRONMENT=dev; /bin/sh ui/2.1/ci/build.sh esb
   build_backend_qa:
     machine: true
     enviornment:
@@ -57,7 +57,7 @@ jobs:
           name: Build 2.1 images
           command: |
              /bin/sh ci/setup.sh
-             export BUILD_ENVIRONMENT=qa; /bin/sh back-end/2.1/mysql/ci/build.sh
+             export BUILD_ENVIRONMENT=qa; /bin/sh back-end/2.1/mysql/ci/build.sh esb
   build_ui_qa:
     machine: true
     enviornment:
@@ -71,7 +71,7 @@ jobs:
           name: Build 2.1 images
           command: |
              /bin/sh ci/setup.sh
-             export BUILD_ENVIRONMENT=qa; /bin/sh ui/2.1/ci/build.sh
+             export BUILD_ENVIRONMENT=qa; /bin/sh ui/2.1/ci/build.sh esb
              
              
 workflows:
