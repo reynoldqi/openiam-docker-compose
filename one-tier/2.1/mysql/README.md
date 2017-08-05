@@ -43,3 +43,35 @@ This should redirect to
 ```
 http://localhost:8080/idp/login.html
 ```
+
+## Updating existing containers
+```
+sudo docker-compose pull
+sudo docker-compose up
+```
+Wait for the containers to come up.
+
+## Troubleshooting - Option 1
+```
+sudo docker ps -a | grep esb
+sudo docker logs --since="10m" <id from above > /tmp/openiam-support.log
+sudo docker ps (send the output of this to the OpenIAM engineer)
+```
+Email the openiam-support.log to the OpenIAM engineer who is helping you.
+
+## Troubleshooting - Option 2
+In case we need to troubleshoot further, use the steps below:
+```
+docker -v (send me this output)
+docker-compose -v (send me this output)
+docker rm $(docker ps -a -q) -f
+docker-compose pull (send me this output)
+docker-compose up (send me this output - it might be tricky to get this all into one file, but please do this)
+wait ~5 minutes.  in another shell:  docker ps -a (send me this output)
+env (send me this output)
+send me the docker-compose.yaml file that you're using.
+log into the ESB container
+cat /data/openiam/conf/rabbitmq.properties (send me this output)
+docker logs -f <id_of_running_esb_container> > /tmp/openiam-support.rabbitmq.out.  Send me /tmp/openiam-support.rabbitmq.out
+```
+In the comments above which indicate - Send me the logs - Please those logs to the OpenIAM engineer who is helping you or create a ticket at support.openiam.com and attach these logs
