@@ -9,5 +9,6 @@ sudo docker cp $(docker ps -a -q -n 1):/opt/openiam/webapps/ /tmp/
 sudo cp -r /tmp/webapps/scripts/*.sh /usr/local/bin/
 
 cd ../
+sudo chown -R circleci /home/circleci/.docker/
 /bin/sh setup.sh
 /bin/sh startup.sh

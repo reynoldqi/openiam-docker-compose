@@ -1,23 +1,18 @@
 # openiam-docker-compose
-This repo contains docker-compose images to bring up OpenIAM.
+This repo contains docker-compose files use to bring up the OpenIAM Stack
 
-You must have access to our dockerhub repositories in order to execute the docker-compose commands.
+You must have access to our dockerhub repositories in order to pull the images.  Please contact sales@openiam.com to request access.
 
 ### Subfolder Overview
 
 
-###### back-end
-The back-end folder contains the docker-compose file and instructions on running *only* the back-end.
+###### 2.1
+Contains an example of running the OpenIAM Stack using docker-compose 2.1
 
-###### UI
+###### 3.2
 
-The UI folder contains the docker-compose file and instructions for running *only* the UI-layer.
-
-
-###### One-tier
-
-The one-tier folder contains the docker-compose file and instructions for running the UI and Back-end in one environment (i.e. on one VM or virtual host)
-
+Contains an example of running the OpenIAM Stack using docker-compose 3.2.  This utilizes docker swarm, stacks, services, and networks.
+This is more geared towards production
 
 
 
