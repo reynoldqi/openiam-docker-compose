@@ -13,5 +13,5 @@ sudo chown -R circleci /home/circleci/.docker/
 /bin/sh setup.sh
 /bin/sh startup.sh
 
-sudo /bin/bash /usr/local/bin/check_health.sh ui 15
-sudo /bin/bash /usr/local/bin/check_health.sh esb 15
+sudo /bin/bash /usr/local/bin/check_health.sh ui 30
+sudo /bin/bash /usr/local/bin/check_health.sh esb 30

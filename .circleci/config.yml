@@ -40,7 +40,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Build 2.1 images
+          name: Build 3.2 images
           command: |
              /bin/sh ci/setup.sh
              docker swarm init; sleep 10;
@@ -55,7 +55,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Build 2.1 images
+          name: Build 3.2 images
           command: |
              /bin/sh ci/setup.sh
              docker swarm init; sleep 10;
