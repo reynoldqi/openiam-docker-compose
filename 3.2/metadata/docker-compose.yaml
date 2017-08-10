@@ -1,0 +1,25 @@
+# This is a docker compose file for metadata container as a volume for sharing
+# with other application services.
+---
+version: '3.2'
+services:
+  service:
+    deploy:
+      # must be available on all machines as a volume.
+      mode: global
+      restart_policy:
+        condition: on-failure
+    entrypoint: /bin/true
+    image: "openiamdocker/openiam-metadata:${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
+    networks:
+      - openiam
+    volumes:
+      - storage:/data/openiam/conf/db
+networks:
+  openiam:
+    external:
+      name: openiam
+volumes:
+  storage:
+     driver: ${DISK_DRIVER:-local}
+#    driver: ${DISK_DRIVER:-cloudstor:aws}
