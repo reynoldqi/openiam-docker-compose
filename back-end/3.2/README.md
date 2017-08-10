@@ -1,1 +1,0 @@
-This section provides information on how to run the back-end of OpenIAM using Version 3.2 of Docker-compose
