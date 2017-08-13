@@ -5,7 +5,7 @@ services:
     - "REDIS_PASSWORD=${REDIS_PASSWORD}"
     - OPENIAM_ESB_HOST=esb
     - OPENIAM_ESB_PORT=9080
-    image: "openiamdocker/ui:${BUILD_ENVIRONMENT}"
+    image: "openiamdocker/ui:alpine-${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
     ports:
       - "8080:8080"
     links:
@@ -25,7 +25,7 @@ services:
     - ./redis-data/:/data
     environment:
     - "REDIS_PASSWORD=${REDIS_PASSWORD}"
-    image: "openiamdocker/redis:${BUILD_ENVIRONMENT}"
+    image: "openiamdocker/redis:alpine-${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
     healthcheck:
       test: "(healthcheck.sh 120 && exit 0) || exit 1"
       interval: 120s
@@ -43,7 +43,7 @@ services:
     - "OPENIAM_PROP_jdbc_password=${OPENIAM_ORACLE_JDBC_PASSWORD}"
     - "REDIS_PASSWORD=${REDIS_PASSWORD}"
     - OPENIAM_JAVA_HEAP_SIZE=1024M
-    image: "openiamdocker/esb:${BUILD_ENVIRONMENT}"
+    image: "openiamdocker/esb:alpine-${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
     ports:
     - "9080:9080"
     links:
@@ -62,7 +62,7 @@ services:
       timeout: 120s
       retries: 2
   idm:
-    image: "openiamdocker/idm:${BUILD_ENVIRONMENT}"
+    image: "openiamdocker/idm:alpine-${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
     links:
     - rabbitmq:rabbitmq
     environment:
@@ -75,7 +75,7 @@ services:
       timeout: 120s
       retries: 2
   elasticsearch:
-    image: "openiamdocker/elasticsearch:${BUILD_ENVIRONMENT}"
+    image: "openiamdocker/elasticsearch:alpine-${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
     volumes:
     - ./elasticsearch/data/:/usr/share/elasticsearch/data
     healthcheck:
@@ -84,14 +84,14 @@ services:
       timeout: 120s
       retries: 2
   rabbitmq:
-    image: "openiamdocker/rabbitmq:${BUILD_ENVIRONMENT}"
+    image: "openiamdocker/rabbitmq:alpine-${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
     healthcheck:
       test: "(healthcheck.sh 120 && exit 0) || exit 1"
       interval: 120s
       timeout: 120s
       retries: 2
   groovy_manager:
-    image: "openiamdocker/groovy-manager:${BUILD_ENVIRONMENT}"
+    image: "openiamdocker/groovy-manager:alpine-${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
     links:
     - rabbitmq:rabbitmq
     environment:
@@ -104,7 +104,7 @@ services:
       timeout: 120s
       retries: 2
   workflow:
-    image: "openiamdocker/workflow:${BUILD_ENVIRONMENT}"
+    image: "openiamdocker/workflow:alpine-${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
     links:
     - rabbitmq:rabbitmq
     environment:

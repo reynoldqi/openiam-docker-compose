@@ -10,7 +10,7 @@ services:
       restart_policy:
         condition: on-failure
     entrypoint: /bin/true
-    image: "openiamdocker/openiam-metadata:${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
+    image: "openiamdocker/openiam-metadata:alpine-${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
     networks:
       - openiam
     volumes:

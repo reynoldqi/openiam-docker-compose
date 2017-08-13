@@ -43,7 +43,13 @@ $OPENIAM_VERSION_NUMBER - this is the Version of OpenIAM that you are interested
 $BUILD_ENVIRONMENT - this the OpenIAM environment which you are pulling.  Valid values are 'latest', dev', 'qa', and 'prod'
 $MYSQL_ROOT_PASSWORD - this is the root password that will be used to setup MySQL.  Don't worry, this stays internal to the MySQL docker container
 $REDIS_PASSWORD - this is the password that will be used to communicate with Redis.
+$MARIADB_BASE_IMAGE_TYPE - the type of mariadb base image to use.  Can either by  'alpine' or 'debian'
 ```
+
+####!!!Warning!!!
+
+If you are running centos7, set MARIADB_BASE_IMAGE_TYPE to 'debian'.  Failing to do so will result in permissions errors, which
+we have yet to track down the root cause of
 
 The following enviornment variables must be set when running locally.
 

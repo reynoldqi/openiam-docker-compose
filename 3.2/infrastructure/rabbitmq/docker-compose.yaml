@@ -1,7 +1,7 @@
 version: '3.2'
 services:
   service:
-    image: "openiamdocker/rabbitmq:${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
+    image: "openiamdocker/rabbitmq:alpine-${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
     environment:
       OPENIAM_LOG_LEVEL: trace
     deploy:

@@ -1,7 +1,7 @@
 version: '3.2'
 services:
   mariadb:
-    image: "openiamdocker/mariadb:${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
+    image: "openiamdocker/mariadb:${MARIADB_BASE_IMAGE_TYPE}-${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
     environment:
       MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
       OPENIAM_LOG_LEVEL: trace

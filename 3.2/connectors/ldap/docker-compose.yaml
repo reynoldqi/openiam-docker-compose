@@ -1,7 +1,7 @@
 version: '3.2'
 services:
   idm:
-    image: "openiamdocker/ldap-connector-rabbitmq:${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
+    image: "openiamdocker/ldap-connector-rabbitmq:alpine-${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
     environment:
       OPENIAM_JAVA_HEAP_SIZE: 256M
       OPENIAM_LOG_LEVEL: trace

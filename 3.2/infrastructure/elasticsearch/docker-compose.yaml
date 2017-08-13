@@ -1,7 +1,7 @@
 version: '3.2'
 services:
   service:
-    image: "openiamdocker/elasticsearch:${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
+    image: "openiamdocker/elasticsearch:alpine-${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
     deploy:
       labels:
       - "traefik.port=9200"

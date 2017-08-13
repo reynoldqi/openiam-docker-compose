@@ -3,7 +3,7 @@ services:
   ui:
     environment:
     - "REDIS_PASSWORD=${REDIS_PASSWORD}"
-    image: "openiamdocker/ui:${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
+    image: "openiamdocker/ui:alpine-${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
     ports:
       - "8080:8080"
     links:
@@ -23,14 +23,14 @@ services:
     - ./redis-data/:/data
     environment:
     - "REDIS_PASSWORD=${REDIS_PASSWORD}"
-    image: "openiamdocker/redis:${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
+    image: "openiamdocker/redis:alpine-${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
     healthcheck:
       test: "(healthcheck.sh 120 && exit 0) || exit 1"
       interval: 120s
       timeout: 120s
       retries: 2
   esb:
-    image: "openiamdocker/esb:${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
+    image: "openiamdocker/esb:alpine-${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
     mem_limit: 1024M
     environment:
     - OPENIAM_JAVA_HEAP_SIZE=1024M
@@ -55,7 +55,7 @@ services:
       timeout: 120s
       retries: 2
   idm:
-    image: "openiamdocker/idm:${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
+    image: "openiamdocker/idm:alpine-${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
     links:
     - rabbitmq:rabbitmq
     mem_limit: 512M
@@ -69,7 +69,7 @@ services:
       timeout: 120s
       retries: 2
   mariadb:
-    image: "openiamdocker/mariadb:${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
+    image: "openiamdocker/mariadb:${MARIADB_BASE_IMAGE_TYPE}-${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
     environment:
     - "MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}"
     volumes:
@@ -81,7 +81,7 @@ services:
       timeout: 120s
       retries: 2
   elasticsearch:
-    image: "openiamdocker/elasticsearch:${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
+    image: "openiamdocker/elasticsearch:alpine-${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
     volumes:
     - ./elasticsearch/data/:/usr/share/elasticsearch/data
     healthcheck:
@@ -90,14 +90,14 @@ services:
       timeout: 120s
       retries: 2
   rabbitmq:
-    image: "openiamdocker/rabbitmq:${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
+    image: "openiamdocker/rabbitmq:alpine-${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
     healthcheck:
       test: "(healthcheck.sh 120 && exit 0) || exit 1"
       interval: 120s
       timeout: 120s
       retries: 2
   groovy_manager:
-    image: "openiamdocker/groovy-manager:${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
+    image: "openiamdocker/groovy-manager:alpine-${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
     links:
     - rabbitmq:rabbitmq
     mem_limit: 512M
@@ -111,7 +111,7 @@ services:
       timeout: 120s
       retries: 2
   workflow:
-    image: "openiamdocker/workflow:${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
+    image: "openiamdocker/workflow:alpine-${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
     links:
     - mariadb:mariadb
     - rabbitmq:rabbitmq
