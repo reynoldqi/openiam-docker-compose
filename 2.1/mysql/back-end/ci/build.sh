@@ -2,7 +2,7 @@
 
 set -e
 
-cd ${CIRCLE_WORKING_DIRECTORY}/2.1/mysql/back-end
+cd ~/project/2.1/mysql/back-end
 sudo -E docker-compose pull
 sudo -E docker-compose up -d
 

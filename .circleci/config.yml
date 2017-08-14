@@ -8,12 +8,13 @@ jobs:
       TZ: "/usr/share/zoneinfo/Etc/UTC"
       DEBIAN_FRONTEND: "noninteractive"
       TERM: "dumb"
-      BUILD_ENVIRONMENT: "dev"
-      MARIADB_BASE_IMAGE_TYPE: "alpine"
     steps:
       - checkout
       - run:
           name: Build 2.1 images
+          enviornment:
+            BUILD_ENVIRONMENT: "dev"
+            MARIADB_BASE_IMAGE_TYPE: "alpine"
           command: |
              . ci/setup.sh
              . 2.1/mysql/back-end/ci/build.sh
