@@ -17,22 +17,23 @@ jobs:
             MARIADB_BASE_IMAGE_TYPE: "alpine"
           command: |
              . ci/setup.sh
-             . 2.1/ci/build.sh 2.1/mysql/back-end/ci/build.sh
+             . 2.1/mysql/back-end/_build.sh
   build_one_tier_v2_1_qa:
     machine: true
     enviornment:
       TZ: "/usr/share/zoneinfo/Etc/UTC"
       DEBIAN_FRONTEND: "noninteractive"
       TERM: "dumb"
-      BUILD_ENVIRONMENT: "qa"
-      MARIADB_BASE_IMAGE_TYPE: "alpine"
     steps:
       - checkout
       - run:
           name: Build 2.1 images
+          enviornment:
+            BUILD_ENVIRONMENT: "qa"
+            MARIADB_BASE_IMAGE_TYPE: "alpine"
           command: |
              . ci/setup.sh
-             . 2.1/mysql/back-end/ci/build.sh
+             . 2.1/mysql/back-end/_build.sh
   build_one_tier_v3_2_dev:
     machine: true
     enviornment:
