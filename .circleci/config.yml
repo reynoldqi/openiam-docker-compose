@@ -12,10 +12,9 @@ jobs:
       - checkout
       - run:
           name: Build 2.1 images
-          enviornment:
-            BUILD_ENVIRONMENT: "dev"
-            MARIADB_BASE_IMAGE_TYPE: "alpine"
           command: |
+             export BUILD_ENVIRONMENT="dev"
+             export MARIADB_BASE_IMAGE_TYPE="alpine"
              . ci/setup.sh
              cd 2.1/mysql/back-end/
              . _build.sh
@@ -29,12 +28,12 @@ jobs:
       - checkout
       - run:
           name: Build 2.1 images
-          enviornment:
-            BUILD_ENVIRONMENT: "qa"
-            MARIADB_BASE_IMAGE_TYPE: "alpine"
           command: |
+             export BUILD_ENVIRONMENT="qa"
+             export MARIADB_BASE_IMAGE_TYPE="alpine"
              . ci/setup.sh
-             . 2.1/mysql/back-end/_build.sh
+             cd 2.1/mysql/back-end/
+             . _build.sh
   build_one_tier_v3_2_dev:
     machine: true
     enviornment:
