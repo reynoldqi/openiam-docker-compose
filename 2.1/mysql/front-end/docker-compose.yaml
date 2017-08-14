@@ -10,13 +10,22 @@ services:
       - "8080:8080"
     links:
     - redis:redis
-    - esb:esb
     depends_on:
     - redis
-    - esb
     mem_limit: 2048M
     healthcheck:
       test: "(curl -s -f http://localhost:8080/openiam-ui-static/js/common/search/organization.search.js > /dev/null && exit 0) || exit 1"
       interval: 30s
       timeout: 120s
       retries: 8
+  redis:
+    volumes:
+    - ./redis-data/:/data
+    environment:
+    - "REDIS_PASSWORD=${REDIS_PASSWORD}"
+    image: "openiamdocker/redis:alpine-${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
+    healthcheck:
+      test: "(healthcheck.sh 120 && exit 0) || exit 1"
+      interval: 120s
+      timeout: 120s
+      retries: 2
