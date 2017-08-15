@@ -10,6 +10,7 @@ export OPENIAM_VERSION_NUMBER="4.0.0"
 export BUILD_ENVIRONMENT="dev"
 export REDIS_PASSWORD="passwd00"
 export MYSQL_ROOT_PASSWORD="passwd00"
+export MARIADB_BASE_IMAGE_TYPE="debian"
 
 # setup volumes
 docker stack deploy --compose-file metadata/docker-compose.yaml --with-registry-auth openiam-elasticsearch-storage
