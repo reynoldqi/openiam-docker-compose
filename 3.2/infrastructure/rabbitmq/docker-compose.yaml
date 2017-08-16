@@ -12,7 +12,7 @@ services:
       replicas: 1
       resources:
         limits:
-          memory: 256M
+          memory: 512M
       restart_policy:
         condition: on-failure
       update_config:
