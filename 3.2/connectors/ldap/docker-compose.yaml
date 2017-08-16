@@ -5,6 +5,7 @@ services:
     environment:
       OPENIAM_JAVA_HEAP_SIZE: 256M
       OPENIAM_LOG_LEVEL: trace
+      KEYSTORE_PASSWORD: "${LDAP_KEYSTORE_PASSWORD}"
     networks:
     - openiam
     deploy:
