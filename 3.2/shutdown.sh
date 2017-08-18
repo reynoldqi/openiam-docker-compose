@@ -65,6 +65,15 @@ if [[ "$(docker volume ls | grep openiam-activiti-storage)" ]]; then
 	sleep 5
 fi
 
+if [[ "$(docker volume ls | grep openiam-rabbitmq-storage_storage)" ]]; then
+	docker volume rm openiam-rabbitmq-storage_storage
+	sleep 5
+fi
+if [[ "$(docker volume ls | grep openiam-rabbitmq-storage)" ]]; then
+	docker volume rm openiam-rabbitmq-storage
+	sleep 5
+fi
+
 if [[ "$(docker network ls | grep openiam)" ]]; then
 	docker network rm openiam
 	sleep 5

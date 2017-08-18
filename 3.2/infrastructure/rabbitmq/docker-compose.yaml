@@ -4,6 +4,8 @@ services:
     image: "openiamdocker/rabbitmq:alpine-${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
     environment:
       OPENIAM_LOG_LEVEL: trace
+    volumes:
+    - rabbitmq:/var/lib/rabbitmq
     deploy:
       placement:
         constraints:
@@ -35,3 +37,7 @@ networks:
   openiam:
     external:
       name: openiam
+volumes:
+  rabbitmq:
+    external:
+      name: openiam-rabbitmq-storage

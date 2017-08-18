@@ -18,6 +18,7 @@ docker stack deploy --compose-file metadata/docker-compose.yaml --with-registry-
 docker stack deploy --compose-file metadata/docker-compose.yaml --with-registry-auth openiam-db-storage
 docker stack deploy --compose-file metadata/docker-compose.yaml --with-registry-auth openiam-jks-storage
 docker stack deploy --compose-file metadata/docker-compose.yaml --with-registry-auth openiam-activiti-storage
+docker stack deploy --compose-file metadata/docker-compose.yaml --with-registry-auth openiam-rabbitmq-storage
 
 # deploy infrastructure services
 docker stack deploy --compose-file infrastructure/redis/docker-compose.yaml --with-registry-auth redis
