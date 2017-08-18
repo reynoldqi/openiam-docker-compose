@@ -7,7 +7,7 @@ services:
       OPENIAM_LOG_LEVEL: trace
     volumes:
     - mysql:/var/lib/mysql
-    - db:/data/openiam/conf/db
+    - db:/opt/openiam/webapps/db
     deploy:
       placement:
         constraints:
