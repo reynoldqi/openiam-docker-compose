@@ -6,6 +6,7 @@ services:
       OPENIAM_LOG_LEVEL: trace
     volumes:
     - rabbitmq:/var/lib/rabbitmq
+    hostname: rabbitmq
     deploy:
       placement:
         constraints:
