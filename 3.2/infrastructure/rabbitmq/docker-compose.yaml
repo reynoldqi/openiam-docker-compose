@@ -4,6 +4,7 @@ services:
     image: "openiamdocker/rabbitmq:alpine-${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
     environment:
       OPENIAM_LOG_LEVEL: trace
+      RABBITMQ_ERLANG_COOKIE: "OpenIAMClusterCookie"
     volumes:
     - rabbitmq:/var/lib/rabbitmq
     hostname: rabbitmq
