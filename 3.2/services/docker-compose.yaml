@@ -152,7 +152,7 @@ networks:
 volumes:
   activiti:
     external:
-      name: openiam-activiti-storage
+      name: openiam-activiti-storage_storage
   jks:
     external:
-      name: openiam-jks-storage
+      name: openiam-jks-storage_storage

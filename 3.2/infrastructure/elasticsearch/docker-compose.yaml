@@ -46,4 +46,4 @@ networks:
 volumes:
   elasticsearch:
     external:
-      name: openiam-elasticsearch-storage
+      name: openiam-elasticsearch-storage_storage

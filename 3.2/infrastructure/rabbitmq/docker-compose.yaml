@@ -42,4 +42,4 @@ networks:
 volumes:
   rabbitmq:
     external:
-      name: openiam-rabbitmq-storage
+      name: openiam-rabbitmq-storage_storage

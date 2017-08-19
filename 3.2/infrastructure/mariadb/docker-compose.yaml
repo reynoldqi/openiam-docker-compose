@@ -42,7 +42,7 @@ networks:
 volumes:
   mysql:
     external:
-      name: openiam-mysql-storage
+      name: openiam-mysql-storage_storage
   db:
     external:
-      name: openiam-db-storage
+      name: openiam-db-storage_storage
