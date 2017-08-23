@@ -19,7 +19,7 @@ services:
         constraints:
         - node.role == ${NODE_ROLE:-worker}
       mode: replicated
-      replicas: 2
+      replicas: 1
       restart_policy:
         condition: on-failure
       update_config:
@@ -58,7 +58,7 @@ services:
         constraints:
         - node.role == ${NODE_ROLE:-worker}
       mode: replicated
-      replicas: 2
+      replicas: 1
       restart_policy:
         condition: on-failure
       update_config:
