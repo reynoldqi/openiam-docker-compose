@@ -7,7 +7,10 @@ export VERSION=${OPENIAM_VERSION_NUMBER:-4.0.0}
 export ENVIRONMENT=${BUILD_ENVIRONMENT:-dev}
 export MARIADB_BASE_IMAGE_TYPE="debian"
 
-docker network create --attachable  --driver=overlay openiam
+if [[ ! "$(docker network ls | grep openiam)" ]]; then
+	docker network create --attachable  --driver=overlay openiam
+	sleep 5
+fi
 
 docker pull "openiamdocker/esb:alpine-${VERSION}-${ENVIRONMENT}"
 docker pull "openiamdocker/workflow:alpine-${VERSION}-${ENVIRONMENT}"

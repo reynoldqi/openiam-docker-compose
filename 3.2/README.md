@@ -46,7 +46,7 @@ $REDIS_PASSWORD - this is the password that will be used to communicate with Red
 $MARIADB_BASE_IMAGE_TYPE - the type of mariadb base image to use.  Can either by  'alpine' or 'debian'
 ```
 
-####!!!Warning!!!
+#### !!!Warning!!!
 
 If you are running centos7, set MARIADB_BASE_IMAGE_TYPE to 'debian'.  Failing to do so will result in permissions errors, which
 we have yet to track down the root cause of
@@ -79,20 +79,24 @@ You can modify the script as required by your internal needs.
  
 ## Teardown
 
-You can run the shutdown.sh script in order to teardown all openiam stacks, volumes, and networks.
+You can run the teardown.sh script in order to teardown all openiam stacks, volumes, and networks.
 
-## Running the OpenIAM Stack
+## Startup
 
-We provide a startup.sh script, which can be used to bring up the OpenIAM stacks.  We recommend modifying the environemnt variables at the top of the script, but keeping the docker commands as they are.
+We provide a startup.sh script, which can be used to bring up the OpenIAM stacks.  We recommend modifying the environment variables at the top of the script, but keeping the docker commands as they are.
+
+## Shutdown
+
+We provide a shutdown.sh script, which can be used to shut down the OpenIAM stacks (excluding volumes).
 
 #### Important
 
 Make sure that you have run the setup.sh script, and that it has executed *successfully*
 
-Once all containers have been brought up, run the following CURL command to confirm that the Back-end is, indeed, running:
+Once all containers have been brought up, run the following CURL command to confirm that the back-end is indeed running:
 
 ```
-curl -L http://localhost/openiam-esb/health
+curl -L http://127.0.0.1/openiam-esb/health
 ```
 
 The return value of this curl command should be this:
