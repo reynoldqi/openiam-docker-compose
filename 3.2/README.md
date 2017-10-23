@@ -118,7 +118,9 @@ replicas: 1
 Hit the following URL in your browser to view the OpenIAM UI:
 
 ```
-http://localhost.openiam.com/openiam-esb/health
+http://127.0.0.1/webconsole
+http://127.0.0.1/selfservice
 ```
 
-Note:  Make sure to put 'localhost.openiam.com' in your hosts file (pointint to 127.0.0.1), and restart your browser after making the hosts file modification (so that changes can take affect)
+Note that Traefik takes over the "localhost" domain of the environment, 
+so you will not be able to use that alias.
