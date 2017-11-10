@@ -30,7 +30,7 @@ services:
       update_config:
         delay: 1s
         parallelism: 2
-    image: docker.io/traefik:1.4-alpine
+    image: docker.io/traefik:v1.4.2
     networks:
       - openiam
     ports:
