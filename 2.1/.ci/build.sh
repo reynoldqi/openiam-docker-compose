@@ -7,9 +7,3 @@ sudo docker pull openiamdocker/circleci_build_utils:latest
 sudo docker run -dit openiamdocker/circleci_build_utils:latest
 sudo docker cp $(docker ps -a -q -n 1):/opt/openiam/webapps/ /tmp/
 sudo cp -r /tmp/webapps/scripts/*.sh /usr/local/bin/
-
-sudo -E docker-compose pull
-sudo -E docker-compose up -d
-
-sudo chown -R circleci /home/circleci/.docker/
-sudo /bin/bash /usr/local/bin/check_health.sh ui 30

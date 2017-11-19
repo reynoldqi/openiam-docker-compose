@@ -2,3 +2,6 @@
 /.idea/modules.xml
 /.idea/openiam-docker-compose.iml
 /.idea/workspace.xml
+2.1/mysql/infrastructure/elasticsearch/
+2.1/mysql/infrastructure/db/
+2.1/mysql/infrastructure/mysql/

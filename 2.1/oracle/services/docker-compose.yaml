@@ -1,6 +1,6 @@
 version: '2.1'
 services:
-  tomcat:
+  ui:
     environment:
     - "REDIS_PASSWORD=${REDIS_PASSWORD}"
     - OPENIAM_ESB_HOST=esb
@@ -15,17 +15,6 @@ services:
     - redis
     - esb
     mem_limit: 4096M
-    healthcheck:
-      test: "(healthcheck.sh 120 && exit 0) || exit 1"
-      interval: 120s
-      timeout: 120s
-      retries: 2
-  redis:
-    volumes:
-    - ./redis-data/:/data
-    environment:
-    - "REDIS_PASSWORD=${REDIS_PASSWORD}"
-    image: "openiamdocker/redis:alpine-${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
     healthcheck:
       test: "(healthcheck.sh 120 && exit 0) || exit 1"
       interval: 120s
@@ -69,22 +58,6 @@ services:
     - OPENIAM_JAVA_HEAP_SIZE=512M
     depends_on:
     - rabbitmq
-    healthcheck:
-      test: "(healthcheck.sh 120 && exit 0) || exit 1"
-      interval: 120s
-      timeout: 120s
-      retries: 2
-  elasticsearch:
-    image: "openiamdocker/elasticsearch:alpine-${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
-    volumes:
-    - ./elasticsearch/data/:/usr/share/elasticsearch/data
-    healthcheck:
-      test: "(healthcheck.sh 120 && exit 0) || exit 1"
-      interval: 120s
-      timeout: 120s
-      retries: 2
-  rabbitmq:
-    image: "openiamdocker/rabbitmq:alpine-${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
     healthcheck:
       test: "(healthcheck.sh 120 && exit 0) || exit 1"
       interval: 120s
