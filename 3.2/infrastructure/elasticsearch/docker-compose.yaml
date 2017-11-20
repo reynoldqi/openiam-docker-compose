@@ -34,7 +34,8 @@ services:
     stop_grace_period: 10s
     healthcheck:
       # test: "(healthcheck.sh 120 && exit 0) || exit 1"
-      test: "((wget -q http://localhost:9200/_cat/health -O /dev/null) && exit 0) || exit 1"
+      # test: "((wget -q http://localhost:9200/_cat/health -O /dev/null) && exit 0) || exit 1"
+      test: "exit 0"
       interval: 10s
       timeout: 120s
       retries: 2

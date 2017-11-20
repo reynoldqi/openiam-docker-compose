@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/OpenIAM/openiam-docker-compose/tree/master.svg?style=svg)](https://circleci.com/gh/OpenIAM/openiam-docker-compose/tree/master)
+
 # openiam-docker-compose
 This repo contains docker-compose files use to bring up the OpenIAM Stack
 
