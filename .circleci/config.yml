@@ -3,150 +3,58 @@ version: 2
 
 jobs:
   build:
-    machine: true
+    docker:
+     - image: openiamdocker/circleci-docker-compose-java
+    resource_class: large
     enviornment:
       TZ: "/usr/share/zoneinfo/Etc/UTC"
       DEBIAN_FRONTEND: "noninteractive"
       TERM: "dumb"
     steps:
       - checkout
+      - setup_remote_docker
       - run:
           name: Build 2.1 images
           command: |
-             export BUILD_ENVIRONMENT="dev"
-             export MARIADB_BASE_IMAGE_TYPE="alpine"
-             . ci/setup.sh
-             cd 2.1/mysql/one-tier/
-             . _build.sh
-  build_one_tier_v2_1_qa:
-    machine: true
-    enviornment:
-      TZ: "/usr/share/zoneinfo/Etc/UTC"
-      DEBIAN_FRONTEND: "noninteractive"
-      TERM: "dumb"
-    steps:
-      - checkout
+             . .ci/setup.sh
       - run:
-          name: Build 2.1 images
+          name: Start Containers
           command: |
-             export BUILD_ENVIRONMENT="qa"
-             export MARIADB_BASE_IMAGE_TYPE="alpine"
-             . ci/setup.sh
-             cd 2.1/mysql/one-tier/
-             . _build.sh
-  build_back_end_v2_1_dev:
-    machine: true
-    enviornment:
-      TZ: "/usr/share/zoneinfo/Etc/UTC"
-      DEBIAN_FRONTEND: "noninteractive"
-      TERM: "dumb"
-    steps:
-      - checkout
+             . 2.1/start.sh
       - run:
-          name: Build 2.1 images
+          name: Verify
           command: |
-             export BUILD_ENVIRONMENT="dev"
-             export MARIADB_BASE_IMAGE_TYPE="alpine"
-             . ci/setup.sh
-             cd 2.1/mysql/back-end/
-             . _build.sh
-  build_back_end_v2_1_qa:
-    machine: true
-    enviornment:
-      TZ: "/usr/share/zoneinfo/Etc/UTC"
-      DEBIAN_FRONTEND: "noninteractive"
-      TERM: "dumb"
-    steps:
-      - checkout
-      - run:
-          name: Build 2.1 images
-          command: |
-             export BUILD_ENVIRONMENT="qa"
-             export MARIADB_BASE_IMAGE_TYPE="alpine"
-             . ci/setup.sh
-             cd 2.1/mysql/back-end/
-             . _build.sh
-  build_ui_v2_1_dev:
-    machine: true
-    enviornment:
-      TZ: "/usr/share/zoneinfo/Etc/UTC"
-      DEBIAN_FRONTEND: "noninteractive"
-      TERM: "dumb"
-    steps:
-      - checkout
-      - run:
-          name: Build 2.1 images
-          command: |
-             export BUILD_ENVIRONMENT="dev"
-             export MARIADB_BASE_IMAGE_TYPE="alpine"
-             . ci/setup.sh
-             cd 2.1/mysql/front-end/
-             . _build.sh
-  build_ui_v2_1_qa:
-    machine: true
-    enviornment:
-      TZ: "/usr/share/zoneinfo/Etc/UTC"
-      DEBIAN_FRONTEND: "noninteractive"
-      TERM: "dumb"
-    steps:
-      - checkout
-      - run:
-          name: Build 2.1 images
-          command: |
-             export BUILD_ENVIRONMENT="qa"
-             export MARIADB_BASE_IMAGE_TYPE="alpine"
-             . ci/setup.sh
-             cd 2.1/mysql/front-end/
-             . _build.sh
-
-
-
-
-  build_one_tier_v3_2_dev:
-    machine: true
-    enviornment:
-      TZ: "/usr/share/zoneinfo/Etc/UTC"
-      DEBIAN_FRONTEND: "noninteractive"
-      TERM: "dumb"
-    steps:
-      - checkout
-      - run:
-          name: Build 3.2 images
-          command: |
-             docker swarm init; sleep 10;
-             export BUILD_ENVIRONMENT=dev
-             export MARIADB_BASE_IMAGE_TYPE=alpine
-             /bin/sh ci/setup.sh
-             cd 3.2/ci;
-             . build.sh
-  build_one_tier_v3_2_qa:
-    machine: true
-    enviornment:
-      TZ: "/usr/share/zoneinfo/Etc/UTC"
-      DEBIAN_FRONTEND: "noninteractive"
-      TERM: "dumb"
-    steps:
-      - checkout
-      - run:
-          name: Build 3.2 images
-          command: |
-             docker swarm init; sleep 10;
-             export BUILD_ENVIRONMENT=qa
-             export MARIADB_BASE_IMAGE_TYPE=alpine
-             /bin/sh ci/setup.sh
-             cd 3.2/ci;
-             . build.sh
+             . .ci/verify.sh
              
-             
+  build_v_3_2:
+    docker:
+     - image: openiamdocker/circleci-docker-compose-java
+    resource_class: large
+    enviornment:
+      TZ: "/usr/share/zoneinfo/Etc/UTC"
+      DEBIAN_FRONTEND: "noninteractive"
+      TERM: "dumb"
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build 2.1 images
+          command: |
+             . .ci/setup.sh
+      - run:
+          name: Start Containers
+          command: |
+             . 3.2/setup.sh
+             . 3.2/startup.sh
+      - run:
+          name: Verify
+          command: |
+             . .ci/verify.sh
+
+
 workflows:
   version: 2
   build_local:
     jobs:
       - build
-      - build_one_tier_v2_1_qa
-      - build_back_end_v2_1_dev
-      - build_back_end_v2_1_qa
-      - build_ui_v2_1_dev
-      - build_ui_v2_1_qa
-      - build_one_tier_v3_2_dev
-      - build_one_tier_v3_2_qa
+      - build_v_3_2

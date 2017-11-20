@@ -4,14 +4,9 @@ This folder contains an example docker-compose file and instructions on bringing
 
 ## Setup
 
-The following environment variables are required.
 
-```
-$BUILD_ENVIRONMENT - this the OpenIAM environment which you are pulling.  Valid values are 'dev', 'qa', and 'prod'
-$REDIS_PASSWORD - this is the password that will be used to communicate with Redis. 
-```
-
-The following environemnt variables are required to run the ESB container
+The following *additional* environemnt variables are required to run the ESB container, 
+in addition to the ones described in the main README
 
 ```
 $OPENIAM_ORACLE_TIMEZONE - this is required.  Docker has no timezone by default, so you have to specify this for connection to Oracle to work
@@ -20,7 +15,8 @@ $OPENIAM_ORACLE_JDBC_USERNAME - username to the OpenIAM database
 $OPENIAM_ORACLE_JDBC_PASSWORD - password to the OpenIAM database
 ```
 
-The following environemnt variables are required to run within the Workflow container
+The following environemnt variables are required to run within the Workflow container,
+in addition to the ones described in the main README
 
 ```
 $OPENIAM_ORACLE_TIMEZONE - this is required.  Docker has no timezone by default, so you have to specify this for connection to Oracle to work
