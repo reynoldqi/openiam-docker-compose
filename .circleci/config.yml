@@ -20,7 +20,8 @@ jobs:
       - run:
           name: Start Containers
           command: |
-             /bin/sh 2.1/start.sh
+             cd 2.1
+             ./start.sh
       - run:
           name: Verify
           command: |
@@ -41,11 +42,13 @@ jobs:
           name: Build 2.1 images
           command: |
              /bin/sh .ci/setup.sh
+             docker swarm init
       - run:
           name: Start Containers
           command: |
-             /bin/sh 3.2/setup.sh
-             /bin/sh 3.2/startup.sh
+             cd 3.2
+             ./setup.sh
+             ./startup.sh
       - run:
           name: Verify
           command: |
