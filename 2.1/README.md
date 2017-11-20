@@ -12,6 +12,10 @@ https://www.docker.com/docker-red-hat-enterprise-linux-rhel
 https://www.docker.com/docker-mac 
 ```
 
+This was tested with:
+1) docker -v 1.13.1
+2) docker-compose -v 1.14.0
+
 ## Setup
 
 The following environment variables are required.

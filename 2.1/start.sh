@@ -12,7 +12,7 @@ export MYSQL_ROOT_PASSWORD="passwd00"
 export MARIADB_BASE_IMAGE_TYPE="debian"
 
 if [[ ! "$(docker network ls | grep openiam)" ]]; then
-	docker network create --attachable  --driver=overlay openiam
+	docker network create --attachable openiam
 	sleep 5
 fi
 
