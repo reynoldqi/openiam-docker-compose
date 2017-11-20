@@ -1,0 +1,35 @@
+version: '2.1'
+services:
+  mariadb:
+    image: "openiamdocker/mariadb:${MARIADB_BASE_IMAGE_TYPE}-${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
+    environment:
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+      OPENIAM_LOG_LEVEL: trace
+    volumes:
+    - mysql:/var/lib/mysql
+    - db:/opt/openiam/webapps/db
+    mem_limit: 512m
+    networks:
+      openiam:
+        aliases:
+          - mariadb
+    ports:
+      - 3306
+    stop_grace_period: 30s
+    healthcheck:
+      test: "(healthcheck.sh 120 && exit 0) || exit 1"
+      interval: 30s
+      timeout: 120s
+      retries: 5
+
+networks:
+  openiam:
+    external:
+      name: openiam
+volumes:
+  mysql:
+    external:
+      name: openiam-mysql-storage_storage
+  db:
+    external:
+      name: openiam-db-storage_storage

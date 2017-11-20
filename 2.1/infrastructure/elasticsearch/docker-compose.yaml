@@ -1,0 +1,36 @@
+version: '2.1'
+services:
+  service:
+    image: "openiamdocker/elasticsearch:alpine-${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
+    labels:
+    - "traefik.port=9200"
+    - "traefik.docker.network=openiam"
+    - "traefik.backend=elasticsearch"
+    - "traefik.frontend.rule=Host:elasticsearch.openiam.com"
+    mem_limit: 1024m
+    volumes:
+    - elasticsearch:/usr/share/elasticsearch/data
+    ports:
+    - "9200"
+    networks:
+      openiam:
+        aliases:
+          - elasticsearch
+    environment:
+      OPENIAM_LOG_LEVEL: trace
+    stop_grace_period: 10s
+    healthcheck:
+      # test: "(healthcheck.sh 120 && exit 0) || exit 1"
+      test: "((wget -q http://localhost:9200/_cat/health -O /dev/null) && exit 0) || exit 1"
+      interval: 10s
+      timeout: 120s
+      retries: 2
+
+networks:
+  openiam:
+    external:
+      name: openiam
+volumes:
+  elasticsearch:
+    external:
+      name: openiam-elasticsearch-storage_storage

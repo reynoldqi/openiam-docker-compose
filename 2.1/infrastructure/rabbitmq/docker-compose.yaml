@@ -1,0 +1,32 @@
+version: '2.1'
+services:
+  service:
+    image: "openiamdocker/rabbitmq:alpine-${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
+    environment:
+      OPENIAM_LOG_LEVEL: trace
+      RABBITMQ_ERLANG_COOKIE: "OpenIAMClusterCookie"
+    volumes:
+    - rabbitmq:/var/lib/rabbitmq
+    hostname: rabbitmq
+    mem_limit: 512M
+    networks:
+      openiam:
+        aliases:
+          - rabbitmq
+    ports:
+      - 5672
+    stop_grace_period: 30s
+    healthcheck:
+      test: "(healthcheck.sh 120 && exit 0) || exit 1"
+      interval: 30s
+      timeout: 120s
+      retries: 5
+
+networks:
+  openiam:
+    external:
+      name: openiam
+volumes:
+  rabbitmq:
+    external:
+      name: openiam-rabbitmq-storage_storage

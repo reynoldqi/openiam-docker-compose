@@ -1,0 +1,95 @@
+version: '2.1'
+services:
+  esb:
+    image: "openiamdocker/esb:alpine-${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
+    environment:
+      OPENIAM_PROP_openiam_dbType: "ORACLE_INSENSITIVE"
+      OPENIAM_PROP_openiam_hibernate_dialect: "org.hibernate.dialect.Oracle10gDialect"
+      OPENIAM_PROP_jdbc_driverClassName: "oracle.jdbc.OracleDriver"
+      OPENIAM_PROP_user_timezone: "${OPENIAM_ORACLE_TIMEZONE}"
+      OPENIAM_PROP_openiam_databaseSchema_name: "${OPENIAM_ORACLE_JDBC_USERNAME}"
+      OPENIAM_PROP_jdbc_url: "${OPENIAM_ORACLE_JDBC_URL}"
+      OPENIAM_PROP_jdbc_username: "${OPENIAM_ORACLE_JDBC_USERNAME}"
+      OPENIAM_PROP_jdbc_password: "${OPENIAM_ORACLE_JDBC_PASSWORD}"
+      REDIS_PASSWORD: "${REDIS_PASSWORD}"
+      OPENIAM_JAVA_HEAP_SIZE: 1024M
+      OPENIAM_LOG_LEVEL: trace
+    volumes:
+    - jks:/data/openiam/conf/jks
+    ports:
+    - "9080:9080"
+    networks:
+      openiam:
+        aliases:
+          - esb
+    labels:
+    - "traefik.port=9080"
+    - "traefik.docker.network=openiam"
+    - "traefik.backend=esb"
+    - "traefik.frontend.rule=PathPrefix:/openiam-esb"
+    stop_grace_period: 10s
+    healthcheck:
+      test: "(healthcheck.sh 120 && exit 0) || exit 1"
+      interval: 60s
+      timeout: 120s
+      retries: 6
+  idm:
+    image: "openiamdocker/idm:alpine-${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
+    environment:
+      OPENIAM_JAVA_HEAP_SIZE: 512M
+      OPENIAM_LOG_LEVEL: trace
+    networks:
+    - openiam
+    stop_grace_period: 10s
+    healthcheck:
+      test: "(healthcheck.sh 120 && exit 0) || exit 1"
+      interval: 60s
+      timeout: 120s
+      retries: 6
+  groovy_manager:
+    image: "openiamdocker/groovy-manager:alpine-${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
+    environment:
+      OPENIAM_JAVA_HEAP_SIZE: 256M
+      OPENIAM_LOG_LEVEL: trace
+    networks:
+    - openiam
+    stop_grace_period: 10s
+    healthcheck:
+      test: "(healthcheck.sh 120 && exit 0) || exit 1"
+      interval: 60s
+      timeout: 120s
+      retries: 6
+  workflow:
+    image: "openiamdocker/workflow:alpine-${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
+    environment:
+      OPENIAM_PROP_openiam_hibernate_dialect: "org.hibernate.dialect.Oracle10gDialect"
+      OPENIAM_PROP_jdbc_driverClassName: "oracle.jdbc.OracleDriver"
+      OPENIAM_PROP_user_timezone: "${OPENIAM_ORACLE_TIMEZONE}"
+      OPENIAM_PROP_openiam_databaseSchema_name: "${OPENIAM_ORACLE_JDBC_USERNAME}"
+      OPENIAM_PROP_jdbc_url: "${OPENIAM_ORACLE_ACTIVITI_JDBC_URL}"
+      OPENIAM_PROP_jdbc_username: "${OPENIAM_ORACLE_ACTIVITI_JDBC_USERNAME}"
+      OPENIAM_PROP_jdbc_password: "${OPENIAM_ORACLE_ACTIVITI_JDBC_PASSWORD}"
+      OPENIAM_JAVA_HEAP_SIZE: 1024M
+      OPENIAM_LOG_LEVEL: trace
+    volumes:
+    - activiti:/data/openiam/conf/activiti
+    networks:
+    - openiam
+    stop_grace_period: 10s
+    healthcheck:
+      test: "(healthcheck.sh 120 && exit 0) || exit 1"
+      interval: 60s
+      timeout: 120s
+      retries: 6
+
+networks:
+  openiam:
+    external:
+      name: openiam
+volumes:
+  activiti:
+    external:
+      name: openiam-activiti-storage_storage
+  jks:
+    external:
+      name: openiam-jks-storage_storage
