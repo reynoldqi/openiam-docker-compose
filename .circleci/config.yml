@@ -16,15 +16,15 @@ jobs:
       - run:
           name: Build 2.1 images
           command: |
-             . .ci/setup.sh
+             /bin/sh .ci/setup.sh
       - run:
           name: Start Containers
           command: |
-             . 2.1/start.sh
+             /bin/sh 2.1/start.sh
       - run:
           name: Verify
           command: |
-             . .ci/verify.sh
+             /bin/sh .ci/verify.sh
              
   build_v_3_2:
     docker:
@@ -40,16 +40,16 @@ jobs:
       - run:
           name: Build 2.1 images
           command: |
-             . .ci/setup.sh
+             /bin/sh .ci/setup.sh
       - run:
           name: Start Containers
           command: |
-             . 3.2/setup.sh
-             . 3.2/startup.sh
+             /bin/sh 3.2/setup.sh
+             /bin/sh 3.2/startup.sh
       - run:
           name: Verify
           command: |
-             . .ci/verify.sh
+             /bin/sh .ci/verify.sh
 
 
 workflows:
