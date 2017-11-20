@@ -52,6 +52,8 @@ jobs:
       - run:
           name: Verify
           command: |
+             echo "Sleeping for 400s, so that the UI can come up..."
+             sleep 400
              /bin/sh .ci/verify.sh
 
 
