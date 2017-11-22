@@ -4,10 +4,12 @@ services:
     image: "openiamdocker/ui:alpine-${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
     environment:
       REDIS_PASSWORD: "${REDIS_PASSWORD}"
+      #ESB_HOST: "${ESB_HOST}"
+      #ESB_PORT: "${ESB_PORT}"
+      #REDIS_HOST: "${REDIS_HOST}"
+      #REDIS_PORT: "${REDIS_PORT}"
     ports:
     - "8080:8080"
-    #- "ESB_HOST=${ESB_HOST}"
-    #- "ESB_PORT=${ESB_PORT}"
     networks:
     - openiam
     labels:

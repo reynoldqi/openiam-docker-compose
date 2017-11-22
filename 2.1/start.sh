@@ -3,7 +3,7 @@
 set -e
 
 # setup environment variables
-export NODE_ROLE=manager
+#export NODE_ROLE=manager
 export DISK_DRIVER=local
 export OPENIAM_VERSION_NUMBER="4.0.0"
 export BUILD_ENVIRONMENT="dev"
