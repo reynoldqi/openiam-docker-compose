@@ -5,6 +5,7 @@ services:
     environment:
       OPENIAM_LOG_LEVEL: trace
       RABBITMQ_ERLANG_COOKIE: "OpenIAMClusterCookie"
+      ERL_CRASH_DUMP: /var/lib/rabbitmq/erl_crash.dump
     volumes:
     - rabbitmq:/var/lib/rabbitmq
     hostname: rabbitmq
