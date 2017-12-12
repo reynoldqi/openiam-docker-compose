@@ -11,6 +11,9 @@ export BUILD_ENVIRONMENT="dev"
 export REDIS_PASSWORD="passwd00"
 export MYSQL_ROOT_PASSWORD="passwd00"
 export MARIADB_BASE_IMAGE_TYPE="debian"
+export DB_TYPE="MariaDB"
+
+echo "Using ${DB_TYPE} as the database type..."
 
 # setup volumes
 docker stack deploy --compose-file metadata/docker-compose.yaml --with-registry-auth openiam-elasticsearch-storage
@@ -23,8 +26,11 @@ docker stack deploy --compose-file metadata/docker-compose.yaml --with-registry-
 # deploy infrastructure services
 docker stack deploy --compose-file infrastructure/redis/docker-compose.yaml --with-registry-auth redis
 docker stack deploy --compose-file infrastructure/elasticsearch/docker-compose.yaml --with-registry-auth elasticsearch
-docker stack deploy --compose-file infrastructure/mariadb/docker-compose.yaml --with-registry-auth mariadb
 docker stack deploy --compose-file infrastructure/rabbitmq/docker-compose.yaml --with-registry-auth rabbitmq
+
+if [[ "$DB_TYPE" == 'MariaDB' ]]; then
+	docker stack deploy --compose-file infrastructure/mariadb/docker-compose.yaml --with-registry-auth mariadb
+fi
 
 # deploy the OpenIAM Stack
 docker stack deploy --compose-file services/docker-compose.yaml --with-registry-auth openiam

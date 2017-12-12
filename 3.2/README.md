@@ -44,14 +44,82 @@ $BUILD_ENVIRONMENT - this the OpenIAM environment which you are pulling.  Valid 
 $MYSQL_ROOT_PASSWORD - this is the root password that will be used to setup MySQL.  Don't worry, this stays internal to the MySQL docker container
 $REDIS_PASSWORD - this is the password that will be used to communicate with Redis.
 $MARIADB_BASE_IMAGE_TYPE - the type of mariadb base image to use.  Can either by  'alpine' or 'debian'
+$DB_TYPE - the database type to be used.  Valid values are MariaDB, Posgres, MSSQL, or Oracle
 ```
 
-#### !!!Warning!!!
+## Database
+
+#### MariaDB
+
+Make sure to set the DB_TYPE environment variable to 'MariaDB' in setup.sh
+
+```
+export DB_TYPE="MariaDB"
+```
+
+
+##### Warning
 
 If you are running centos7, set MARIADB_BASE_IMAGE_TYPE to 'debian'.  Failing to do so will result in permissions errors, which
 we have yet to track down the root cause of
 
-The following enviornment variables must be set when running locally.
+
+#### SQLServer
+
+If you are using MSSQL, you have to tell the ESB and Workflow that you are using that database.  To do this,
+include the following environment variables in the ESB and Workflow descriptors.
+
+Change the Hibernate Dialect Accordingly to your SQLServer version.
+```
+      JDBC_HOST: "${JDBC_HOST}"
+      JDBC_PORT: "${JDBC_PORT}"
+      JDBC_SCHEMA_NAME: "${JDBC_SCHEMA_NAME}"
+      JDBC_USERNAME: "${JDBC_USERNAME}"
+      JDBC_PASSWORD: "${JDBC_PASSWORD}"
+      JDBC_ACTIVITI_USERNAME: "${JDBC_ACTIVITI_USERNAME}"
+      JDBC_ACTIVITI_PASSWORD: "${JDBC_ACTIVITI_PASSWORD}"
+      JDBC_DATABASE_NAME: "${JDBC_DATABASE_NAME}"
+      JDBC_ACTIVITI_DATABASE_NAME: "${JDBC_ACTIVITI_DATABASE_NAME}"
+      OPENIAM_HIBERNATE_DIALECT: "org.hibernate.dialect.SQLServer2012Dialect"
+```
+
+Make sure to set the DB_TYPE environment variable to 'MSSQL' in setup.sh
+
+```
+export DB_TYPE="MSSQL"
+```
+
+#### Oracle
+
+If you are using Oracle, you have to tell the ESB and Workflow that you are using that database.  To do this,
+include the following environment variables in the ESB and Workflow descriptors.
+
+Change the Hibernate Dialect Accordingly to your Oracle version
+```
+      JDBC_HOST: "${JDBC_HOST}"
+      JDBC_PORT: "${JDBC_PORT}"
+      JDBC_SID: "${JDBC_SID}"
+      JDBC_SERVICE_NAME: "${JDBC_SERVICE_NAME}"
+      JDBC_SCHEMA_NAME: "${JDBC_SCHEMA_NAME}"
+      JDBC_USERNAME: "${JDBC_USERNAME}"
+      JDBC_PASSWORD: "${JDBC_PASSWORD}"
+      JDBC_ACTIVITI_USERNAME: "${JDBC_ACTIVITI_USERNAME}"
+      JDBC_ACTIVITI_PASSWORD: "${JDBC_ACTIVITI_PASSWORD}"
+      OPENIAM_PROP_user_timezone: "${ORACLE_USER_TIMEZONE}"
+      OPENIAM_HIBERNATE_DIALECT: "org.hibernate.dialect.Oracle10gDialect"
+```
+
+If you are using the Oracle SID to connect to Oracle, set the JDBC_SID variable.
+If you are using the Oracle Service Name to connect to Oralce, set the JDBC_SERVICE_NAME variable
+
+Make sure to set the DB_TYPE environment variable to 'Oracle' in setup.sh
+
+```
+export DB_TYPE="Oracle"
+```
+
+## Swarm and Disk Driver Config
+
 
 ```
 # the Node Role can either be 'worker' or 'manager'.  When deploying to a swarm with multiple nodes, 

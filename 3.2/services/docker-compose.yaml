@@ -37,6 +37,33 @@ services:
       REDIS_PASSWORD: "${REDIS_PASSWORD}"
       OPENIAM_JAVA_HEAP_SIZE: 1024M
       OPENIAM_LOG_LEVEL: trace
+      DB_TYPE: "${DB_TYPE}"
+######## Oracle #########
+#      JDBC_HOST: "${JDBC_HOST}"
+#      JDBC_PORT: "${JDBC_PORT}"
+#      JDBC_SID: "${JDBC_SID}"
+#      JDBC_SERVICE_NAME: "${JDBC_SERVICE_NAME}"
+#      JDBC_SCHEMA_NAME: "${JDBC_SCHEMA_NAME}"
+#      JDBC_USERNAME: "${JDBC_USERNAME}"
+#      JDBC_PASSWORD: "${JDBC_PASSWORD}"
+#      JDBC_ACTIVITI_USERNAME: "${JDBC_ACTIVITI_USERNAME}"
+#      JDBC_ACTIVITI_PASSWORD: "${JDBC_ACTIVITI_PASSWORD}"
+#      OPENIAM_PROP_user_timezone: "${ORACLE_USER_TIMEZONE}"
+#      OPENIAM_HIBERNATE_DIALECT: "org.hibernate.dialect.Oracle10gDialect"
+######## End Oracle #########
+
+######## MSSQL #########
+#      JDBC_HOST: "${JDBC_HOST}"
+#      JDBC_PORT: "${JDBC_PORT}"
+#      JDBC_SCHEMA_NAME: "${JDBC_SCHEMA_NAME}"
+#      JDBC_USERNAME: "${JDBC_USERNAME}"
+#      JDBC_PASSWORD: "${JDBC_PASSWORD}"
+#      JDBC_ACTIVITI_USERNAME: "${JDBC_ACTIVITI_USERNAME}"
+#      JDBC_ACTIVITI_PASSWORD: "${JDBC_ACTIVITI_PASSWORD}"
+#      JDBC_DATABASE_NAME: "${JDBC_DATABASE_NAME}"
+#      JDBC_ACTIVITI_DATABASE_NAME: "${JDBC_ACTIVITI_DATABASE_NAME}"
+#      OPENIAM_HIBERNATE_DIALECT: "org.hibernate.dialect.SQLServer2012Dialect"
+######## End MSSQL #########
     volumes:
     - jks:/data/openiam/conf/jks
     ports:
@@ -123,6 +150,33 @@ services:
     environment:
       OPENIAM_JAVA_HEAP_SIZE: 1024M
       OPENIAM_LOG_LEVEL: trace
+      DB_TYPE: "${DB_TYPE}"
+######## Oracle #########
+#      JDBC_HOST: "${JDBC_HOST}"
+#      JDBC_PORT: "${JDBC_PORT}"
+#      JDBC_SID: "${JDBC_SID}"
+#      JDBC_SERVICE_NAME: "${JDBC_SERVICE_NAME}"
+#      JDBC_SCHEMA_NAME: "${JDBC_SCHEMA_NAME}"
+#      JDBC_USERNAME: "${JDBC_USERNAME}"
+#      JDBC_PASSWORD: "${JDBC_PASSWORD}"
+#      JDBC_ACTIVITI_USERNAME: "${JDBC_ACTIVITI_USERNAME}"
+#      JDBC_ACTIVITI_PASSWORD: "${JDBC_ACTIVITI_PASSWORD}"
+#      OPENIAM_PROP_user_timezone: "${ORACLE_USER_TIMEZONE}"
+#      OPENIAM_HIBERNATE_DIALECT: "org.hibernate.dialect.Oracle10gDialect"
+######## End Oracle #########
+
+######## MSSQL #########
+#      JDBC_HOST: "${JDBC_HOST}"
+#      JDBC_PORT: "${JDBC_PORT}"
+#      JDBC_SCHEMA_NAME: "${JDBC_SCHEMA_NAME}"
+#      JDBC_USERNAME: "${JDBC_USERNAME}"
+#      JDBC_PASSWORD: "${JDBC_PASSWORD}"
+#      JDBC_ACTIVITI_USERNAME: "${JDBC_ACTIVITI_USERNAME}"
+#      JDBC_ACTIVITI_PASSWORD: "${JDBC_ACTIVITI_PASSWORD}"
+#      JDBC_DATABASE_NAME: "${JDBC_DATABASE_NAME}"
+#      JDBC_ACTIVITI_DATABASE_NAME: "${JDBC_ACTIVITI_DATABASE_NAME}"
+#      OPENIAM_HIBERNATE_DIALECT: "org.hibernate.dialect.SQLServer2012Dialect"
+######## End MSSQL #########
     volumes:
     - activiti:/data/openiam/conf/activiti
     networks:
