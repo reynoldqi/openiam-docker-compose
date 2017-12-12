@@ -71,16 +71,16 @@ include the following environment variables in the ESB and Workflow descriptors.
 
 Change the Hibernate Dialect Accordingly to your SQLServer version.
 ```
-      JDBC_HOST: "${JDBC_HOST}"
-      JDBC_PORT: "${JDBC_PORT}"
-      JDBC_SCHEMA_NAME: "${JDBC_SCHEMA_NAME}"
-      JDBC_USERNAME: "${JDBC_USERNAME}"
-      JDBC_PASSWORD: "${JDBC_PASSWORD}"
-      JDBC_ACTIVITI_USERNAME: "${JDBC_ACTIVITI_USERNAME}"
-      JDBC_ACTIVITI_PASSWORD: "${JDBC_ACTIVITI_PASSWORD}"
-      JDBC_DATABASE_NAME: "${JDBC_DATABASE_NAME}"
-      JDBC_ACTIVITI_DATABASE_NAME: "${JDBC_ACTIVITI_DATABASE_NAME}"
-      OPENIAM_HIBERNATE_DIALECT: "org.hibernate.dialect.SQLServer2012Dialect"
+      JDBC_HOST: "${JDBC_HOST}" # the hostname of the database
+      JDBC_PORT: "${JDBC_PORT}" # port of the database
+      JDBC_SCHEMA_NAME: "${JDBC_SCHEMA_NAME}" # openiam database schema (i.e. 'openiam.dbo')
+      JDBC_USERNAME: "${JDBC_USERNAME}" # username to the openiam database
+      JDBC_PASSWORD: "${JDBC_PASSWORD}" # password to the openiam database
+      JDBC_ACTIVITI_USERNAME: "${JDBC_ACTIVITI_USERNAME}" # username to the activiti database
+      JDBC_ACTIVITI_PASSWORD: "${JDBC_ACTIVITI_PASSWORD}" # password to the activiti database
+      JDBC_DATABASE_NAME: "${JDBC_DATABASE_NAME}" # name of the openiam database (i.e. 'openiam')
+      JDBC_ACTIVITI_DATABASE_NAME: "${JDBC_ACTIVITI_DATABASE_NAME}" # name of the activiti database (i.e. 'activiti')
+      OPENIAM_HIBERNATE_DIALECT: "org.hibernate.dialect.SQLServer2012Dialect" # hibernate dialect for your SQLServer Version
 ```
 
 Make sure to set the DB_TYPE environment variable to 'MSSQL' in setup.sh
@@ -96,17 +96,17 @@ include the following environment variables in the ESB and Workflow descriptors.
 
 Change the Hibernate Dialect Accordingly to your Oracle version
 ```
-      JDBC_HOST: "${JDBC_HOST}"
-      JDBC_PORT: "${JDBC_PORT}"
-      JDBC_SID: "${JDBC_SID}"
-      JDBC_SERVICE_NAME: "${JDBC_SERVICE_NAME}"
-      JDBC_SCHEMA_NAME: "${JDBC_SCHEMA_NAME}"
-      JDBC_USERNAME: "${JDBC_USERNAME}"
-      JDBC_PASSWORD: "${JDBC_PASSWORD}"
-      JDBC_ACTIVITI_USERNAME: "${JDBC_ACTIVITI_USERNAME}"
-      JDBC_ACTIVITI_PASSWORD: "${JDBC_ACTIVITI_PASSWORD}"
-      OPENIAM_PROP_user_timezone: "${ORACLE_USER_TIMEZONE}"
-      OPENIAM_HIBERNATE_DIALECT: "org.hibernate.dialect.Oracle10gDialect"
+      JDBC_HOST: "${JDBC_HOST}" # the hostname of the database
+      JDBC_PORT: "${JDBC_PORT}" # port of the database
+      JDBC_SID: "${JDBC_SID}" # SID for connecting to your Oracle database
+      JDBC_SERVICE_NAME: "${JDBC_SERVICE_NAME}" # Service Name for connecting to your Oracle database
+      JDBC_SCHEMA_NAME: "${JDBC_SCHEMA_NAME}" # openiam database schema (i.e. 'IAMUSER')
+      JDBC_USERNAME: "${JDBC_USERNAME}" # username to the openiam database
+      JDBC_PASSWORD: "${JDBC_PASSWORD}" # password to the openiam database
+      JDBC_ACTIVITI_USERNAME: "${JDBC_ACTIVITI_USERNAME}" # username to the activiti database
+      JDBC_ACTIVITI_PASSWORD: "${JDBC_ACTIVITI_PASSWORD}" # password to the activiti database
+      OPENIAM_PROP_user_timezone: "${ORACLE_USER_TIMEZONE}" # property required by Oracle
+      OPENIAM_HIBERNATE_DIALECT: "org.hibernate.dialect.Oracle10gDialect" # hibernate dialect for your Oracle Version
 ```
 
 If you are using the Oracle SID to connect to Oracle, set the JDBC_SID variable.
