@@ -12,7 +12,7 @@
 # http://localhost:8080
 # ```
 ---
-version: '3.2'
+version: '3.0'
 services:
   openiam:
     command: --docker --docker.swarmmode --docker.domain=openiam.com --docker.watch --web --logLevel=DEBUG

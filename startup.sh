@@ -13,7 +13,11 @@ export MYSQL_ROOT_PASSWORD="passwd00"
 export MARIADB_BASE_IMAGE_TYPE="debian"
 export DB_TYPE="MariaDB"
 
-echo "Using ${DB_TYPE} as the database type..."
+: "${DOCKER_COMPOSE_VERSION?set DOCKER_COMPOSE_VERSION to either 2.1 or 3.2}"
+
+cd $DOCKER_COMPOSE_VERSION
+
+echo "Using $DB_TYPE as the database type..."
 
 # setup volumes
 docker stack deploy --compose-file metadata/docker-compose.yaml --with-registry-auth openiam-elasticsearch-storage
@@ -34,6 +38,8 @@ fi
 
 # deploy the OpenIAM Stack
 docker stack deploy --compose-file services/docker-compose.yaml --with-registry-auth openiam
+
+docker stack deploy --compose-file ui/docker-compose.yaml --with-registry-auth ui
 
 # Deploy traefik
 docker stack deploy --compose-file infrastructure/traefik/docker-compose.yaml --with-registry-auth traefik

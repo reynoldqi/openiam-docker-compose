@@ -1,7 +1,7 @@
 # This is a docker compose file for metadata container as a volume for sharing
 # with other application services.
 ---
-version: '3.2'
+version: '3.0'
 services:
   service:
     deploy:

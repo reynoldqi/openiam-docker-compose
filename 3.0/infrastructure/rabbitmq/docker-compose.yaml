@@ -1,0 +1,46 @@
+version: '3.0'
+services:
+  service:
+    image: "openiamdocker/rabbitmq:alpine-${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
+    environment:
+      OPENIAM_LOG_LEVEL: trace
+      RABBITMQ_ERLANG_COOKIE: "OpenIAMClusterCookie"
+      ERL_CRASH_DUMP: /var/lib/rabbitmq/erl_crash.dump
+    volumes:
+    - rabbitmq:/var/lib/rabbitmq
+    hostname: rabbitmq
+    deploy:
+      placement:
+        constraints:
+        - node.role == ${NODE_ROLE:-worker}
+      mode: replicated
+      replicas: 1
+      resources:
+        limits:
+          memory: 512M
+      restart_policy:
+        condition: on-failure
+      update_config:
+        delay: 1s
+        parallelism: 2
+    networks:
+      openiam:
+        aliases:
+          - rabbitmq
+    ports:
+      - 5672
+    stop_grace_period: 30s
+    healthcheck:
+      test: "(healthcheck.sh 120 && exit 0) || exit 1"
+      interval: 30s
+      timeout: 120s
+      retries: 5
+
+networks:
+  openiam:
+    external:
+      name: openiam
+volumes:
+  rabbitmq:
+    external:
+      name: openiam-rabbitmq-storage_storage

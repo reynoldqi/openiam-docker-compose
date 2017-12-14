@@ -1,0 +1,1 @@
+This folder contains the necessary information for bringing up the OpenIAM Suite using docker-compose 3.0 file format.

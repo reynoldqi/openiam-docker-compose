@@ -1,0 +1,50 @@
+version: '3.0'
+services:
+  service:
+    image: "openiamdocker/elasticsearch:alpine-${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
+    deploy:
+      labels:
+      - "traefik.port=9200"
+      - "traefik.docker.network=openiam"
+      - "traefik.backend=elasticsearch"
+      - "traefik.frontend.rule=Host:elasticsearch.openiam.com"
+      mode: replicated
+      placement:
+        constraints:
+        - node.role == ${NODE_ROLE:-worker}
+      replicas: 1
+      resources:
+        limits:
+          memory: 1024m
+      restart_policy:
+        condition: on-failure
+      update_config:
+        delay: 1s
+        parallelism: 2
+    volumes:
+    - elasticsearch:/usr/share/elasticsearch/data
+    ports:
+    - "9200"
+    networks:
+      openiam:
+        aliases:
+          - elasticsearch
+    environment:
+      OPENIAM_LOG_LEVEL: trace
+    stop_grace_period: 10s
+    healthcheck:
+      # test: "(healthcheck.sh 120 && exit 0) || exit 1"
+      # test: "((wget -q http://localhost:9200/_cat/health -O /dev/null) && exit 0) || exit 1"
+      test: "exit 0"
+      interval: 10s
+      timeout: 120s
+      retries: 2
+
+networks:
+  openiam:
+    external:
+      name: openiam
+volumes:
+  elasticsearch:
+    external:
+      name: openiam-elasticsearch-storage_storage
