@@ -24,9 +24,10 @@ services:
           - node.role == manager
       resources:
         limits:
-          memory: 32M
+          memory: 64M
+      # you always need traefik, so always restart it
       restart_policy:
-        condition: on-failure
+        condition: any
       update_config:
         delay: 1s
         parallelism: 2
