@@ -192,7 +192,7 @@ Make sure that you have run the setup.sh script, and that it has executed *succe
 Once all containers have been brought up, run the following CURL command to confirm that the back-end is indeed running:
 
 ```
-curl -L http://127.0.0.1/openiam-esb/health
+curl -L http://127.0.0.1:8000/openiam-esb/health
 ```
 
 The return value of this curl command should be this:
@@ -214,9 +214,11 @@ replicas: 1
 Hit the following URL in your browser to view the OpenIAM UI:
 
 ```
-http://127.0.0.1/webconsole
-http://127.0.0.1/selfservice
+http://127.0.0.1:8000/webconsole
+http://127.0.0.1:8000/selfservice
 ```
 
 Note that Traefik takes over the "localhost" domain of the environment, 
-so you will not be able to use that alias.
+so you will not be able to use that alias.  In addition, our default configuration has
+traefik listening on port 8000.  In a proper deployment, you should have apache load balancer 
+in front of traefik, so that port 80 and 443 are forwarded to port 8000
