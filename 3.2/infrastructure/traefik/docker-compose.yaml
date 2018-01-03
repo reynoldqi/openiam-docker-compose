@@ -15,7 +15,7 @@
 version: '3.2'
 services:
   openiam:
-    command: --docker --docker.swarmmode --docker.domain=openiam.com --docker.watch --web --logLevel=DEBUG
+    command: --docker --docker.swarmmode --docker.domain=openiam.com --docker.watch --web --logLevel=DEBUG --accesslogsfile
     deploy:
       mode: global
       # We might want to run them on ALL nodes. For now we run them on the managers.
@@ -31,7 +31,7 @@ services:
       update_config:
         delay: 1s
         parallelism: 2
-    image: docker.io/traefik:v1.4.2
+    image: docker.io/traefik:v1.5
     networks:
       - openiam
     ports:
