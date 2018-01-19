@@ -17,7 +17,7 @@ services:
       replicas: 1
       resources:
         limits:
-          memory: 512M
+          memory: 1024M
       # when rabbitmq crashes, it exists with '0', which one could argue is a bug.
       # So - make the restart policy 'any', so that it is always restarted
       restart_policy:
