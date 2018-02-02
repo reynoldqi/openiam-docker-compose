@@ -37,11 +37,9 @@ services:
         aliases:
           - elasticsearch
     environment:
-      - OPENIAM_LOG_LEVEL=trace
-      - cluster.name=openiam
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - "discovery.zen.ping.unicast.hosts=elasticsearch"
+      - "OPENIAM_LOG_LEVEL=trace"
+      - "bootstrap.memory_lock=true"
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m -Des.discovery.zen.ping.multicast.enabled=false  -Des.discovery.zen.ping.unicast.hosts=elasticsearch_service -Des.network.bind=_eth0:ipv4_ -Dcluster.name=openiam"
     stop_grace_period: 10s
     healthcheck:
       # test: "(healthcheck.sh 120 && exit 0) || exit 1"
