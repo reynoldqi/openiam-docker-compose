@@ -6,7 +6,7 @@ This project contains examples of how to deploy the OpenIAM stack to docker.  We
 
 The OpenIAM Suite is broken down into several "stacks", which are deployable to your docker swarm.  Namely:
 
-1) Devops stacks
+1) Critical Infrastructure stacks
 * Elasticsearch
 * Redis
 * Mariadb
@@ -41,6 +41,20 @@ To use docker-compose 3.2 file format, you must have (at least) the following do
 ```
 
 ## Prerequisites
+
+Ensure that the docker host(s) have the following value set:
+
+```
+sysctl -w vm.max_map_count=262144
+```
+
+Add this to:
+```
+/etc/sysctl.conf
+```
+
+to persist across restarts.
+
 
 Firstly, ensure that you have a dockerhub account, and that you are given privileges to download the OpenIAM images.  To request access, please contact your OpenIAM Representative.
 
@@ -222,3 +236,12 @@ Note that Traefik takes over the "localhost" domain of the environment,
 so you will not be able to use that alias.  In addition, our default configuration has
 traefik listening on port 8000.  In a proper deployment, you should have apache load balancer 
 in front of traefik, so that port 80 and 443 are forwarded to port 8000
+
+
+## Using Docker Swarm
+
+By default, the shell scripts that we provide deploy to the docker swarm.
+Ensure that the necessary ports are opened.  Otherwise, the manager and worker node(s)
+will not be able to communicate with each other.  See the [following](https://docs.docker.com/engine/swarm/swarm-tutorial/) link.
+  
+  

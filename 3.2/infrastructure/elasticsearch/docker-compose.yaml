@@ -12,12 +12,16 @@ services:
       placement:
         constraints:
         - node.role == ${NODE_ROLE:-worker}
-      replicas: 1
+      replicas: 2
       resources:
         limits:
           memory: 1024m
+          ulimits:
+            memlock:
+              soft: -1
+              hard: -1
       restart_policy:
-        condition: on-failure
+        condition: any
       update_config:
         delay: 1s
         parallelism: 2
@@ -30,11 +34,16 @@ services:
         aliases:
           - elasticsearch
     environment:
-      OPENIAM_LOG_LEVEL: trace
+      - OPENIAM_LOG_LEVEL=trace
+      - cluster.name=openiam
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "discovery.zen.ping.unicast.hosts=elasticsearch"
     stop_grace_period: 10s
     healthcheck:
       # test: "(healthcheck.sh 120 && exit 0) || exit 1"
       # test: "((wget -q http://localhost:9200/_cat/health -O /dev/null) && exit 0) || exit 1"
+      # we will always need ES to be up, even if it's yellow (i.e. not green)
       test: "exit 0"
       interval: 10s
       timeout: 120s
