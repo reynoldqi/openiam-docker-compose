@@ -12,7 +12,7 @@ services:
       placement:
         constraints:
         - node.role == ${NODE_ROLE:-worker}
-      replicas: 2
+      replicas: 1
       resources:
         limits:
           memory: 1024m
@@ -21,6 +21,7 @@ services:
       update_config:
         delay: 1s
         parallelism: 2
+#      endpoint_mode: dnsrr
     ulimits:
       memlock:
         soft: -1
@@ -38,8 +39,8 @@ services:
           - elasticsearch
     environment:
       - "OPENIAM_LOG_LEVEL=trace"
-      - "bootstrap.memory_lock=true"
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m -Des.discovery.zen.ping.unicast.hosts=tasks.elasticsearch -Des.network.host=_eth0_ -Des.cluster.name=openiam"
+#      - "bootstrap.memory_lock=true"
+#      - "ES_JAVA_OPTS=-Xms512m -Xmx512m -Des.discovery.zen.ping.multicast.enabled=false -Des.discovery.zen.ping.unicast.hosts=tasks.elasticsearch_service -Des.cluster.name=openiam -Des.network.bind=_eth0:ipv4_"
     stop_grace_period: 10s
     healthcheck:
       # test: "(healthcheck.sh 120 && exit 0) || exit 1"
