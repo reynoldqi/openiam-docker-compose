@@ -18,8 +18,10 @@ services:
       placement:
         constraints:
         - node.role == ${NODE_ROLE:-worker}
-      mode: replicated
-      replicas: 1
+#      mode: replicated
+#      We are going to place these on all worker nodes
+      mode: global
+#      replicas: 1
       restart_policy:
         condition: on-failure
       update_config:
