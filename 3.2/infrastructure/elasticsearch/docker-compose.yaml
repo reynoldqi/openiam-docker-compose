@@ -8,12 +8,13 @@ services:
       - "traefik.docker.network=openiam"
       - "traefik.backend=elasticsearch"
       - "traefik.frontend.rule=Host:elasticsearch.openiam.com"
+      placement:
+        constraints:
+        - node.role == manager
+#      mode: replicated
+#      We are going to place these on all worker nodes
       mode: global
-#      We are going to place elasticsearch on all nodes
-#      placement:
-#        constraints:
-#          - node.role == manager
-#      replicas: 2
+#      replicas: 1
       resources:
         limits:
           memory: 768m
