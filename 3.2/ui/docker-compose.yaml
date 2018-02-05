@@ -12,7 +12,7 @@ services:
     deploy:
       labels:
       - "traefik.port=8080"
-      - "traefik.docker.network=openiam"
+      - "traefik.docker.network=openiam_private"
       - "traefik.backend=ui"
       - "traefik.frontend.rule=PathPrefix:/webconsole, /selfservice, /selfservice-ext, /idp, /openiam-ui-static"
       placement:

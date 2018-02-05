@@ -5,7 +5,7 @@ services:
     deploy:
       labels:
       - "traefik.port=9200"
-      - "traefik.docker.network=openiam"
+      - "traefik.docker.network=openiam_private"
       - "traefik.backend=elasticsearch"
       - "traefik.frontend.rule=Host:elasticsearch.openiam.com"
       placement:
