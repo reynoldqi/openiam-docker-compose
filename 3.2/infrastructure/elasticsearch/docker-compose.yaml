@@ -11,10 +11,10 @@ services:
       placement:
         constraints:
         - node.role == manager
-#      mode: replicated
+      mode: replicated
 #      We are going to place these on all worker nodes
       mode: global
-#      replicas: 1
+#      replicas: 2
       resources:
         limits:
           memory: 768m
@@ -36,13 +36,15 @@ services:
 #    ports:
 #    - "9200"
     networks:
-      openiam:
+      openiam_private:
         aliases:
           - elasticsearch
     environment:
       - "OPENIAM_LOG_LEVEL=trace"
       - "bootstrap.memory_lock=true"
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m -Des.discovery.zen.ping.multicast.enabled=false -Des.discovery.zen.ping.unicast.hosts=tasks.elasticsearch_service -Des.cluster.name=openiam -Des.network.bind=_eth0:ipv4_"
+      - VIRTUAL_HOST=esproxy
+      - VIRTUAL_PORT=9300
     stop_grace_period: 10s
     healthcheck:
       # test: "(healthcheck.sh 120 && exit 0) || exit 1"
@@ -54,9 +56,9 @@ services:
       retries: 2
 
 networks:
-  openiam:
+  openiam_private:
     external:
-      name: openiam
+      name: openiam_private
 volumes:
   elasticsearch:
     external:

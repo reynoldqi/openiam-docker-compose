@@ -31,6 +31,7 @@ docker stack deploy --compose-file metadata/docker-compose.yaml --with-registry-
 docker stack deploy --compose-file infrastructure/redis/docker-compose.yaml --with-registry-auth redis
 docker stack deploy --compose-file infrastructure/elasticsearch/docker-compose.yaml --with-registry-auth elasticsearch
 docker stack deploy --compose-file infrastructure/rabbitmq/docker-compose.yaml --with-registry-auth rabbitmq
+docker stack deploy --compose-file infrastructure/nginx/docker-compose.yaml --with-registry-auth nginx
 
 if [[ "$DB_TYPE" == 'MariaDB' ]]; then
 	docker stack deploy --compose-file infrastructure/mariadb/docker-compose.yaml --with-registry-auth mariadb
@@ -39,7 +40,7 @@ fi
 # deploy the OpenIAM Stack
 docker stack deploy --compose-file services/docker-compose.yaml --with-registry-auth openiam
 
-docker stack deploy --compose-file ui/docker-compose.yaml --with-registry-auth ui
+# docker stack deploy --compose-file ui/docker-compose.yaml --with-registry-auth ui
 
 # Deploy traefik
 docker stack deploy --compose-file infrastructure/traefik/docker-compose.yaml --with-registry-auth traefik

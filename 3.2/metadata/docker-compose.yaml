@@ -12,14 +12,14 @@ services:
     entrypoint: /bin/true
     image: "openiamdocker/openiam-metadata:alpine-${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
     networks:
-      - openiam
+      - openiam_private
     volumes:
       - storage:/data/openiam/conf/db
 
 networks:
-  openiam:
+  openiam_private:
     external:
-      name: openiam
+      name: openiam_private
 volumes:
   storage:
      driver: ${DISK_DRIVER:-local}

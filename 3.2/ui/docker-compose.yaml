@@ -8,7 +8,7 @@ services:
     #- "8080:8080"
     - "8080"
     networks:
-    - openiam
+    - openiam_private
     deploy:
       labels:
       - "traefik.port=8080"
@@ -35,6 +35,6 @@ services:
       retries: 6
 
 networks:
-  openiam:
+  openiam_private:
     external:
-      name: openiam
+      name: openiam_private

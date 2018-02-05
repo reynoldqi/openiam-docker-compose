@@ -7,11 +7,17 @@ export VERSION=${OPENIAM_VERSION_NUMBER:-4.0.0}
 export ENVIRONMENT=${BUILD_ENVIRONMENT:-dev}
 export MARIADB_BASE_IMAGE_TYPE="debian"
 
-if [[ ! "$(docker network ls | grep openiam)" ]]; then
-	docker network create --attachable  --driver=overlay openiam
+if [[ ! "$(docker network ls | grep openiam_private)" ]]; then
+	docker network create --attachable  --driver=overlay openiam_private
 	sleep 5
 fi
 
+if [[ ! "$(docker network ls | grep openiam_public)" ]]; then
+	docker network create --attachable  --driver=overlay openiam_public
+	sleep 5
+fi
+
+docker pull jwilder/nginx-proxy:alpine
 docker pull "openiamdocker/esb:alpine-${VERSION}-${ENVIRONMENT}"
 docker pull "openiamdocker/workflow:alpine-${VERSION}-${ENVIRONMENT}"
 docker pull "openiamdocker/idm:alpine-${VERSION}-${ENVIRONMENT}"

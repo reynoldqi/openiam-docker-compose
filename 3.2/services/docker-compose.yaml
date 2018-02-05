@@ -39,7 +39,7 @@ services:
     #- "9080:9080"
     - "9080"
     networks:
-      openiam:
+      openiam_private:
         aliases:
           - esb
     deploy:
@@ -74,7 +74,7 @@ services:
       OPENIAM_JAVA_HEAP_SIZE: 512M
       OPENIAM_LOG_LEVEL: trace
     networks:
-    - openiam
+    - openiam_private
     deploy:
       placement:
         constraints:
@@ -100,7 +100,7 @@ services:
       OPENIAM_JAVA_HEAP_SIZE: 256M
       OPENIAM_LOG_LEVEL: trace
     networks:
-    - openiam
+    - openiam_private
     deploy:
       placement:
         constraints:
@@ -155,7 +155,7 @@ services:
     volumes:
     - activiti:/data/openiam/conf/activiti
     networks:
-    - openiam
+    - openiam_private
     deploy:
       placement:
         constraints:
@@ -177,9 +177,9 @@ services:
       retries: 6
 
 networks:
-  openiam:
+  openiam_private:
     external:
-      name: openiam
+      name: openiam_private
 volumes:
   activiti:
     external:

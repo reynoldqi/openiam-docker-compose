@@ -1,0 +1,38 @@
+#
+# Nginx is needed in order to enable elasticsearch node discovery in docker swarm
+# see https://sematext.com/blog/docker-elasticsearch-swarm/
+---
+version: '3.2'
+services:
+  esproxy:
+    deploy:
+      labels: [APP=esproxy]
+      mode: global
+      placement:
+        constraints:
+          - node.role == manager
+      resources:
+        limits:
+          memory: 64M
+      restart_policy:
+        condition: any
+      update_config:
+        delay: 1s
+        parallelism: 2
+    image: jwilder/nginx-proxy:alpine
+    networks:
+      - openiam_private
+      - openiam_public
+    ports:
+      - "9300:9300"
+    stop_grace_period: 30s
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+
+networks:
+  openiam_private:
+    external:
+      name: openiam_private
+  openiam_public:
+    external:
+      name: openiam_public
