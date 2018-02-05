@@ -40,7 +40,7 @@ fi
 # deploy the OpenIAM Stack
 docker stack deploy --compose-file services/docker-compose.yaml --with-registry-auth openiam
 
-# docker stack deploy --compose-file ui/docker-compose.yaml --with-registry-auth ui
+docker stack deploy --compose-file ui/docker-compose.yaml --with-registry-auth ui
 
 # Deploy traefik
 docker stack deploy --compose-file infrastructure/traefik/docker-compose.yaml --with-registry-auth traefik
