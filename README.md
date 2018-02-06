@@ -12,6 +12,7 @@ The OpenIAM Suite is broken down into several "stacks", which are deployable to 
 * Mariadb
 * RabbitMQ
 * Traefik
+* Nginx
 
 2) Service stacks
 * ESB
@@ -244,4 +245,20 @@ By default, the shell scripts that we provide deploy to the docker swarm.
 Ensure that the necessary ports are opened.  Otherwise, the manager and worker node(s)
 will not be able to communicate with each other.  See the [following](https://docs.docker.com/engine/swarm/swarm-tutorial/) link.
   
-  
+
+## Elasticsearch and Nginx
+
+Nginx is used in our stack to enable autodiscovery of ElasticSearch nodes.
+Normally, in a non-swarm enviornment, you would know exactly how many
+ElasticSearch nodes you have, enabling you to specify the hostnames in the 'discovery.zen.ping.unicast.hosts'
+property.
+
+In swarm mode, this is not possible, as you do not know neither the number of instances, nor
+the IP Addresses of the nodes in advance.  To get around this, we use dnsrr network mode, and specify 
+a single value for 'discovery.zen.ping.unicast.hosts'.  Pinging of this hostname will resolve
+to a different IP Address (i.e. DNS Round Robin), allowing all ElasticSearch instances
+to *eventually* find each other.  Nginx allows the discovery request to be proxied from the 
+outside world (in case of different docker hosts) into the openiam_private docker network
+
+
+The [following guide](discovery.zen.ping.unicast.hosts) was used as an example
