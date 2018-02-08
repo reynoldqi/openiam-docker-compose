@@ -45,7 +45,7 @@ services:
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m -Des.discovery.zen.ping.multicast.enabled=false -Des.discovery.zen.ping.unicast.hosts=tasks.elasticsearch_service -Des.cluster.name=openiam -Des.network.bind=_eth0:ipv4_"
       - VIRTUAL_HOST=esproxy
       - VIRTUAL_PORT=9300
-    stop_grace_period: 10s
+    stop_grace_period: 30s
     healthcheck:
       # test: "(healthcheck.sh 120 && exit 0) || exit 1"
       # test: "((wget -q http://localhost:9200/_cat/health -O /dev/null) && exit 0) || exit 1"

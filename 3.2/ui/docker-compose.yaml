@@ -27,7 +27,7 @@ services:
       update_config:
         delay: 1s
         parallelism: 2
-    stop_grace_period: 10s
+    stop_grace_period: 30s
     healthcheck:
       test: "(curl -s -f http://localhost:8080/openiam-ui-static/js/common/search/organization.search.js > /dev/null && exit 0) || exit 1"
       interval: 60s

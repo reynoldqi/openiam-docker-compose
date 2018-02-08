@@ -19,6 +19,7 @@ services:
       update_config:
         delay: 1s
         parallelism: 2
+    stop_grace_period: 30s
     image: jwilder/nginx-proxy:alpine
     networks:
       - openiam_private

@@ -261,4 +261,4 @@ to *eventually* find each other.  Nginx allows the discovery request to be proxi
 outside world (in case of different docker hosts) into the openiam_private docker network
 
 
-The [following guide](discovery.zen.ping.unicast.hosts) was used as an example
+The [following guide](https://sematext.com/blog/docker-elasticsearch-swarm/) was used as an example
