@@ -19,7 +19,7 @@ The OpenIAM Suite is broken down into several "stacks", which are deployable to 
 * IDM
 * Workflow
 * Groovy Manager
-
+* Synchronization
 3) UI Stack
 
 ## Hardware Requirements
