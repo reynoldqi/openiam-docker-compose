@@ -26,7 +26,7 @@ services:
         delay: 1s
         parallelism: 2
     networks:
-      openiam:
+      openiam_private:
         aliases:
           - rabbitmq
     ports:
@@ -39,9 +39,9 @@ services:
       retries: 5
 
 networks:
-  openiam:
+  openiam_private:
     external:
-      name: openiam
+      name: openiam_private
 volumes:
   rabbitmq:
     external:

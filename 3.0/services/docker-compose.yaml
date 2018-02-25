@@ -39,13 +39,13 @@ services:
     #- "9080:9080"
     - "9080"
     networks:
-      openiam:
+      openiam_private:
         aliases:
           - esb
     deploy:
       labels:
       - "traefik.port=9080"
-      - "traefik.docker.network=openiam"
+      - "traefik.docker.network=openiam_private"
       - "traefik.backend=esb"
       #- "traefik.frontend.rule=Host:esb.openiam.com"
       #- "traefik.frontend.rule=Host:esb.openiam.com,Path:/openiam-esb"
@@ -72,7 +72,7 @@ services:
       OPENIAM_JAVA_HEAP_SIZE: 512M
       OPENIAM_LOG_LEVEL: trace
     networks:
-    - openiam
+    - openiam_private
     deploy:
       placement:
         constraints:
@@ -96,7 +96,7 @@ services:
       OPENIAM_JAVA_HEAP_SIZE: 512M
       OPENIAM_LOG_LEVEL: trace
     networks:
-    - openiam
+    - openiam_private
     deploy:
       placement:
         constraints:
@@ -121,7 +121,7 @@ services:
       OPENIAM_JAVA_HEAP_SIZE: 256M
       OPENIAM_LOG_LEVEL: trace
     networks:
-    - openiam
+    - openiam_private
     deploy:
       placement:
         constraints:
@@ -174,7 +174,7 @@ services:
     volumes:
     - activiti:/data/openiam/conf/activiti
     networks:
-    - openiam
+    - openiam_private
     deploy:
       placement:
         constraints:
@@ -194,9 +194,9 @@ services:
       retries: 6
 
 networks:
-  openiam:
+  openiam_private:
     external:
-      name: openiam
+      name: openiam_private
 volumes:
   activiti:
     external:
