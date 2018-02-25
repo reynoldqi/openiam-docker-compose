@@ -31,7 +31,10 @@ docker stack deploy --compose-file metadata/docker-compose.yaml --with-registry-
 docker stack deploy --compose-file infrastructure/redis/docker-compose.yaml --with-registry-auth redis
 docker stack deploy --compose-file infrastructure/elasticsearch/docker-compose.yaml --with-registry-auth elasticsearch
 docker stack deploy --compose-file infrastructure/rabbitmq/docker-compose.yaml --with-registry-auth rabbitmq
-docker stack deploy --compose-file infrastructure/nginx/docker-compose.yaml --with-registry-auth nginx
+
+if [[ "$DOCKER_COMPOSE_VERSION" == '3.2' ]]; then
+    docker stack deploy --compose-file infrastructure/nginx/docker-compose.yaml --with-registry-auth nginx
+fi
 
 if [[ "$DB_TYPE" == 'MariaDB' ]]; then
 	docker stack deploy --compose-file infrastructure/mariadb/docker-compose.yaml --with-registry-auth mariadb
