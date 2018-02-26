@@ -23,7 +23,7 @@ The OpenIAM Suite is broken down into several "stacks", which are deployable to 
 3) UI Stack
 
 ## Hardware Requirements
-It is recommended that you have at least 6G of memory avaialable to run the OpenIAM Stack in docker
+It is recommended that you have at least 12G of memory avaialable to run the OpenIAM Stack in docker
 
 ## Software System Requirements
 
