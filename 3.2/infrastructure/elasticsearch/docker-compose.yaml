@@ -11,7 +11,7 @@ services:
       placement:
         constraints:
         - node.role == manager
-      mode: replicated
+#      mode: replicated
 #      We are going to place these on all worker nodes
       mode: global
 #      replicas: 2

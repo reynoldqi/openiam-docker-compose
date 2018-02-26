@@ -43,6 +43,9 @@ fi
 # deploy the OpenIAM Stack
 docker stack deploy --compose-file services/docker-compose.yaml --with-registry-auth openiam
 
+# deploy the LDAP Connector
+docker stack deploy --compose-file connectors/ldap/docker-compose.yaml --with-registry-auth ldap-connector
+
 docker stack deploy --compose-file ui/docker-compose.yaml --with-registry-auth ui
 
 # Deploy traefik
