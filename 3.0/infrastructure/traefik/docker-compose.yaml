@@ -33,7 +33,7 @@ services:
         parallelism: 2
     image: docker.io/traefik:v1.5
     networks:
-      - openiam
+      - openiam_private
     ports:
       - "8000:80"
       - "8080:8080"
@@ -42,6 +42,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
 
 networks:
-  openiam:
+  openiam_private:
     external:
-      name: openiam
+      name: openiam_private

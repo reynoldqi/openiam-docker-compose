@@ -8,11 +8,11 @@ services:
     #- "8080:8080"
     - "8080"
     networks:
-    - openiam
+    - openiam_private
     deploy:
       labels:
       - "traefik.port=8080"
-      - "traefik.docker.network=openiam"
+      - "traefik.docker.network=openiam_private"
       - "traefik.backend=ui"
       - "traefik.frontend.rule=PathPrefix:/webconsole, /selfservice, /selfservice-ext, /idp, /openiam-ui-static"
       placement:
@@ -33,6 +33,6 @@ services:
       retries: 6
 
 networks:
-  openiam:
+  openiam_private:
     external:
-      name: openiam
+      name: openiam_private

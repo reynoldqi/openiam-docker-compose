@@ -39,13 +39,13 @@ services:
     #- "9080:9080"
     - "9080"
     networks:
-      openiam:
+      openiam_private:
         aliases:
           - esb
     deploy:
       labels:
       - "traefik.port=9080"
-      - "traefik.docker.network=openiam"
+      - "traefik.docker.network=openiam_private"
       - "traefik.backend=esb"
       #- "traefik.frontend.rule=Host:esb.openiam.com"
       #- "traefik.frontend.rule=Host:esb.openiam.com,Path:/openiam-esb"
@@ -72,7 +72,7 @@ services:
       OPENIAM_JAVA_HEAP_SIZE: 512M
       OPENIAM_LOG_LEVEL: trace
     networks:
-    - openiam
+    - openiam_private
     deploy:
       placement:
         constraints:
@@ -90,13 +90,38 @@ services:
       interval: 60s
       timeout: 120s
       retries: 6
+  synchronization:
+    image: "openiamdocker/synchronization:alpine-${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
+    environment:
+      OPENIAM_JAVA_HEAP_SIZE: 512M
+      OPENIAM_LOG_LEVEL: trace
+    networks:
+    - openiam_private
+    deploy:
+      placement:
+        constraints:
+        - node.role == ${NODE_ROLE:-worker}
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      update_config:
+        delay: 1s
+        parallelism: 2
+    stop_grace_period: 10s
+    healthcheck:
+      test: "(healthcheck.sh 120 && exit 0) || exit 1"
+      interval: 60s
+      timeout: 120s
+      retries: 6
+
   groovy_manager:
     image: "openiamdocker/groovy-manager:alpine-${OPENIAM_VERSION_NUMBER}-${BUILD_ENVIRONMENT}"
     environment:
       OPENIAM_JAVA_HEAP_SIZE: 256M
       OPENIAM_LOG_LEVEL: trace
     networks:
-    - openiam
+    - openiam_private
     deploy:
       placement:
         constraints:
@@ -149,7 +174,7 @@ services:
     volumes:
     - activiti:/data/openiam/conf/activiti
     networks:
-    - openiam
+    - openiam_private
     deploy:
       placement:
         constraints:
@@ -169,9 +194,9 @@ services:
       retries: 6
 
 networks:
-  openiam:
+  openiam_private:
     external:
-      name: openiam
+      name: openiam_private
 volumes:
   activiti:
     external:

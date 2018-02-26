@@ -7,7 +7,7 @@ services:
       OPENIAM_LOG_LEVEL: trace
       KEYSTORE_PASSWORD: "${LDAP_KEYSTORE_PASSWORD}"
     networks:
-    - openiam
+    - openiam_private
     deploy:
       placement:
         constraints:
@@ -27,6 +27,6 @@ services:
       retries: 6
 
 networks:
-  openiam:
+  openiam_private:
     external:
-      name: openiam
+      name: openiam_private
